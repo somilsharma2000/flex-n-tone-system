@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+ <title>FLEX N TONE — Member Portal v2 | Salford, Manchester</title>
+ <meta name="description" content="Flex N Tone Gym Member Portal v2. AI Workouts, Nutrition, Wearable Sync, Referral Rewards, and Member Management.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+ <style>
+ *,::before,::after{margin:0;padding:0;box-sizing:border-box}
+ :root{
+ --green:#CCFF00;--green-glow:rgba(204,255,0,0.35);--green-soft:rgba(204,255,0,0.08);
+ --orange:#FF6B35;--orange-glow:rgba(255,107,53,0.3);
+ --bg:#0B0C10;--bg-card:#111317;--bg-elevated:#181a1f;
+ --border:rgba(255,255,255,0.06);--border-glow:rgba(204,255,0,0.2);
+ --text:#FFFFFF;--text-muted:#6b7080;--text-dim:#a8adba;--glass:rgba(255,255,255,0.03);
+ --clay-out:0 8px 32px rgba(0,0,0,0.6),0 2px 8px rgba(0,0,0,0.3),inset 0 1px 1px rgba(255,255,255,0.04);
+ --clay-in:inset 0 2px 4px rgba(0,0,0,0.5),inset 0 -1px 1px rgba(255,255,255,0.02);
+ --clay-emboss:inset 0 1px 2px rgba(255,255,255,0.06),inset 0 -1px 2px rgba(0,0,0,0.4),0 4px 12px rgba(0,0,0,0.4);
+ --clay-icon:inset 0 2px 3px rgba(0,0,0,0.5),inset 0 -1px 1px rgba(255,255,255,0.03),0 4px 10px rgba(0,0,0,0.3);
+ --r-sm:8px;--r-md:14px;--r-lg:20px;
+ }
+ [data-theme="light"]{
+ --bg:#f0f2f5;--bg-card:#ffffff;--bg-elevated:#e8ecf0;
+ --border:rgba(0,0,0,0.08);--border-glow:rgba(204,255,0,0.3);
+ --text:#0B0C10;--text-muted:#5a6275;--text-dim:#3a4055;--glass:rgba(0,0,0,0.02);
+ --green-glow:rgba(204,255,0,0.2);--green-soft:rgba(204,255,0,0.06);
+ --clay-out:0 8px 32px rgba(0,0,0,0.08),0 2px 8px rgba(0,0,0,0.03),inset 0 1px 1px rgba(255,255,255,0.9);
+ --clay-emboss:inset 0 1px 2px rgba(255,255,255,0.9),inset 0 -1px 2px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.06);
+ --clay-in:inset 0 2px 4px rgba(0,0,0,0.08),inset 0 -1px 1px rgba(255,255,255,0.6);
+ --clay-icon:inset 0 2px 3px rgba(0,0,0,0.08),inset 0 -1px 1px rgba(255,255,255,0.6),0 4px 10px rgba(0,0,0,0.06);
+ }
+ html{scroll-behavior:smooth}
+ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+ h1,h2,h3,h4,.font-syne{font-family:'Syne',sans-serif;font-weight:700;letter-spacing:-0.02em}
+ 
+ /* HEADER & NAV */
+ .header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:12px 20px;background:rgba(11,12,16,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+ [data-theme="light"] .header{background:rgba(240,242,245,0.88)}
+ .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;flex-shrink:0}
+ .logo-badge{background:var(--green);color:#000;padding:2px 8px;border-radius:6px;font-size:.68rem;font-weight:800;box-shadow:0 0 10px var(--green-glow)}
+ 
+ .nav-links-wrapper{overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;margin:0 10px}
+ .nav-links-wrapper::-webkit-scrollbar{display:none}
+ .nav-links{display:flex;align-items:center;gap:4px;list-style:none;white-space:nowrap}
+ .nav-link{padding:7px 13px;border-radius:100px;color:var(--text-dim);text-decoration:none;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;display:inline-block}
+ .nav-link:hover{color:var(--text);background:var(--glass)}
+ .nav-link.active{color:#000;background:var(--green);font-weight:700;box-shadow:0 4px 15px var(--green-glow)}
+ 
+ .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+ .theme-toggle-btn{width:36px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--clay-emboss);transition:transform .2s}
+ .theme-toggle-btn:hover{transform:scale(1.05);border-color:var(--green)}
+ .user-avatar-btn{display:flex;align-items:center;gap:8px;padding:3px 10px 3px 3px;background:var(--bg-card);border:1px solid var(--border);border-radius:100px;box-shadow:var(--clay-emboss);cursor:pointer;transition:border-color .2s}
+ .user-avatar-btn:hover{border-color:var(--green)}
+ .avatar-circle{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--orange));color:#000;font-weight:800;font-size:.78rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--clay-icon)}
+ .user-info{text-align:left;line-height:1.2}
+ .user-name{font-size:.75rem;font-weight:700;color:var(--text)}
+ .user-status{font-size:.62rem;color:var(--green);font-weight:600}
+ 
+ .hamburger{display:none;background:var(--bg-card);border:1px solid var(--border);color:var(--text);font-size:1.2rem;padding:6px 10px;border-radius:var(--r-sm);cursor:pointer;box-shadow:var(--clay-emboss)}
+ .mobile-nav{display:none;position:fixed;top:62px;left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);padding:14px;z-index:999;box-shadow:0 10px 30px rgba(0,0,0,0.5);backdrop-filter:blur(20px);max-height:80vh;overflow-y:auto}
+ .mobile-nav.open{display:block}
+ .mobile-nav-link{display:block;padding:10px 14px;color:var(--text);text-decoration:none;font-weight:600;border-radius:var(--r-md);margin-bottom:4px}
+ .mobile-nav-link.active{background:var(--green);color:#000}
+ 
+ .main-container{max-width:1200px;margin:0 auto;padding:85px 18px 50px}
+ .portal-section{display:none;animation:fadeIn .3s ease forwards}
+ .portal-section.active{display:block}
+ @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+ 
+ .section-header{margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px}
+ .section-title{font-size:1.75rem;font-weight:800;color:var(--text)}
+ .section-subtitle{font-size:.85rem;color:var(--text-muted);margin-top:2px}
+ 
+ .clay-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;box-shadow:var(--clay-out);backdrop-filter:blur(12px);position:relative;overflow:hidden;transition:border-color .2s}
+ .clay-card:hover{border-color:var(--border-glow)}
+ 
+ .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:100px;font-size:.82rem;font-weight:700;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+ .btn-primary{background:var(--green);color:#000;box-shadow:0 4px 15px var(--green-glow),var(--clay-emboss)}
+ .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--green-glow),var(--clay-emboss)}
+ .btn-secondary{background:var(--bg-elevated);color:var(--text);border:1px solid var(--border);box-shadow:var(--clay-emboss)}
+ .btn-secondary:hover{border-color:var(--green);color:var(--green);transform:translateY(-1px)}
+ .btn-danger{background:rgba(255,75,75,0.15);color:#ff4b4b;border:1px solid rgba(255,75,75,0.3);box-shadow:var(--clay-emboss)}
+ .btn-danger:hover{background:rgba(255,75,75,0.25);border-color:#ff4b4b}
+ .btn-sm{padding:5px 12px;font-size:.75rem}
+ .w-full{width:100%}
+ 
+ .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+ .membership-card{background:linear-gradient(135deg,rgba(24,26,31,0.95),rgba(17,19,23,0.95)),url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80') center/cover;background-blend-mode:overlay;border:1px solid var(--border-glow)}
+ .membership-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),var(--orange))}
+ .card-type-badge{display:inline-block;background:var(--green-soft);color:var(--green);border:1px solid var(--border-glow);padding:3px 10px;border-radius:100px;font-size:.7rem;font-weight:800;margin-bottom:10px}
+ .plan-price{font-size:2rem;font-weight:800;color:var(--text);margin:6px 0}
+ .plan-price span{font-size:.9rem;color:var(--text-muted);font-weight:500}
+ .membership-details{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;padding:14px;background:var(--glass);border-radius:var(--r-md);border:1px solid var(--border)}
+ .detail-item .label{font-size:.68rem;color:var(--text-muted);text-transform:uppercase}
+ .detail-item .val{font-size:.88rem;font-weight:700;color:var(--text);margin-top:2px}
+ .barcode-area{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,0,0,0.3);border-radius:var(--r-md);border:1px dashed var(--border);font-family:monospace;letter-spacing:2px;font-size:.8rem;color:var(--text-dim)}
+ 
+ .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+ .stat-card{display:flex;align-items:center;gap:14px;padding:16px}
+ .stat-icon{width:44px;height:44px;border-radius:var(--r-md);background:var(--bg-elevated);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:var(--clay-icon);flex-shrink:0}
+ .stat-num{font-size:1.5rem;font-weight:800;color:var(--text);line-height:1.1}
+ .stat-label{font-size:.75rem;color:var(--text-muted);font-weight:500}
+ 
+ .upcoming-list{display:flex;flex-direction:column;gap:10px}
+ .upcoming-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-elevated);border-radius:var(--r-md);border:1px solid var(--border)}
+ .class-time-tag{background:var(--green-soft);color:var(--green);padding:5px 10px;border-radius:var(--r-sm);font-size:.78rem;font-weight:700;min-width:85px;text-align:center}
+ .pt-card-content{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+ .trainer-thumb{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--green);box-shadow:0 0 12px var(--green-glow)}
+ 
+ .filter-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:20px}
+ .filter-btn{padding:7px 16px;border-radius:100px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-dim);font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;box-shadow:var(--clay-emboss)}
+ .filter-btn.active{background:var(--green);color:#000;font-weight:700}
+ .classes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+ .class-card{display:flex;flex-direction:column;justify-content:space-between}
+ .class-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+ .class-cat{font-size:.65rem;font-weight:800;color:var(--orange);letter-spacing:1px;background:var(--orange-glow);padding:2px 8px;border-radius:100px}
+ .class-title{font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:6px}
+ .class-meta{font-size:.78rem;color:var(--text-muted);display:flex;flex-direction:column;gap:3px;margin-bottom:16px}
+ .capacity-wrap{margin-bottom:12px}
+ .capacity-label{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-dim);margin-bottom:4px}
+ .progress-bar-bg{height:6px;background:var(--bg-elevated);border-radius:100px;overflow:hidden;border:1px solid var(--border)}
+ .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--orange));border-radius:100px;transition:width .3s ease}
+ 
+ .trainers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+ .trainer-card{text-align:center;display:flex;flex-direction:column;align-items:center}
+ .trainer-img{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid var(--green);margin-bottom:12px;box-shadow:0 0 20px var(--green-glow)}
+ .trainer-name{font-size:1.1rem;font-weight:800;color:var(--text)}
+ .trainer-role{font-size:.75rem;color:var(--green);font-weight:700;margin-bottom:8px}
+ .trainer-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin:10px 0 16px}
+ .badge-item{font-size:.65rem;background:var(--glass);border:1px solid var(--border);padding:2px 8px;border-radius:100px;color:var(--text-dim)}
+ 
+ .workouts-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+ .form-group{margin-bottom:12px}
+ .form-label{display:block;font-size:.72rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px}
+ .form-input,.form-select,.form-textarea{width:100%;padding:8px 12px;border-radius:var(--r-sm);background:var(--bg-elevated);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.85rem;transition:border-color .2s}
+ .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--green)}
+ .exercise-table{width:100%;border-collapse:collapse;margin:10px 0}
+ .exercise-table th{font-size:.68rem;color:var(--text-muted);text-transform:uppercase;text-align:left;padding:6px;border-bottom:1px solid var(--border)}
+ .exercise-table td{padding:4px}
+ .recent-workout-card{margin-bottom:12px}
+ .workout-date-tag{font-size:.7rem;color:var(--green);background:var(--green-soft);padding:2px 8px;border-radius:100px;font-weight:700}
+ .exercise-summary-list{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:4px}
+ .exercise-summary-item{font-size:.78rem;color:var(--text-dim);padding:4px 8px;background:var(--glass);border-radius:var(--r-sm);border:1px solid var(--border)}
+ .pr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+ .pr-card{background:var(--bg-elevated);padding:14px;border-radius:var(--r-md);border:1px solid var(--border);text-align:center}
+ .pr-val{font-size:1.4rem;font-weight:800;color:var(--green);margin:4px 0}
+ 
+ .progress-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+ .metric-row{margin-bottom:14px}
+ .metric-label-group{display:flex;justify-content:space-between;font-size:.8rem;font-weight:700;margin-bottom:4px}
+ .chart-container{padding:10px;background:var(--bg-elevated);border-radius:var(--r-md);border:1px solid var(--border);margin-top:10px}
+ .chart-svg{width:100%;height:180px;display:block}
+ .photo-slots-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+ .photo-slot{aspect-ratio:3/4;background:var(--bg-elevated);border:1px dashed var(--border);border-radius:var(--r-md);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:border-color .2s}
+ .photo-slot:hover{border-color:var(--green)}
+ .photo-img{width:100%;height:100%;object-fit:cover}
+ .photo-tag{position:absolute;bottom:6px;left:6px;right:6px;background:rgba(0,0,0,0.7);padding:2px 6px;border-radius:4px;font-size:.65rem;text-align:center;font-weight:700}
+ .goals-list{display:flex;flex-direction:column;gap:12px}
+ 
+ .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+ .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+ .toggle-row:last-child{border-bottom:none}
+ .toggle-label-title{font-size:.85rem;font-weight:700}
+ .toggle-label-sub{font-size:.72rem;color:var(--text-muted)}
+ .clay-switch{width:46px;height:24px;border-radius:100px;background:var(--bg-elevated);border:1px solid var(--border);cursor:pointer;padding:2px;transition:all .2s;position:relative}
+ .clay-switch.active{background:var(--green);border-color:var(--green)}
+ .clay-switch-handle{width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 2px 4px rgba(0,0,0,0.3)}
+ .clay-switch.active .clay-switch-handle{transform:translateX(22px);background:#000}
+ 
+ /* MODALS & TOAST */
+ .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);z-index:2000;align-items:center;justify-content:center;padding:18px}
+ .modal-overlay.open{display:flex}
+ .modal-box{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--r-lg);padding:24px;max-width:480px;width:100%;box-shadow:var(--clay-out);position:relative;animation:popIn .25s ease}
+ @keyframes popIn{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+ .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-dim);font-size:1.2rem;cursor:pointer}
+ .modal-close:hover{color:var(--text)}
+ 
+ .toast-container{position:fixed;bottom:24px;right:24px;z-index:3000;display:flex;flex-direction:column;gap:10px}
+ .toast{background:var(--bg-card);border:1px solid var(--border-glow);color:var(--text);padding:12px 18px;border-radius:100px;box-shadow:0 10px 30px rgba(0,0,0,0.5),var(--clay-emboss);font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:8px;animation:slideUp .3s ease}
+ @keyframes slideUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+ 
+ .flex-between{display:flex;justify-content:space-between;align-items:center}
+ .flex-col{display:flex;flex-direction:column}
+ .gap-10{gap:10px}
+ .gap-14{gap:14px}
+ .flex-gap-10{display:flex;gap:10px}
+ 
+ /* ==================== NEW V2 FEATURES STYLES ==================== */
+ 
+ /* 1. LOGIN OVERLAY */
+ .login-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,12,16,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .3s ease, visibility .3s ease}
+ .login-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+ .login-card{max-width:440px;width:100%;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--r-lg);padding:36px 30px;box-shadow:var(--clay-out), 0 0 50px rgba(204,255,0,0.15);text-align:center;position:relative;overflow:hidden}
+ .login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),var(--orange))}
+ .login-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--text);margin-bottom:4px;letter-spacing:-0.03em}
+ .login-tagline{font-size:.82rem;color:var(--text-muted);margin-bottom:20px}
+ .login-btn-group{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+ 
+ /* 2. REFERRAL SYSTEM */
+ .ref-card{background:linear-gradient(135deg, rgba(204,255,0,0.04), rgba(255,107,53,0.04));border:1px solid var(--border-glow)}
+ .ref-link-box{display:flex;gap:8px;background:var(--bg-elevated);padding:10px 14px;border-radius:var(--r-md);border:1px solid var(--border);align-items:center;margin:12px 0}
+ .ref-link-input{background:transparent;border:none;color:var(--green);font-weight:700;flex:1;font-family:monospace;font-size:.9rem}
+ .ref-link-input:focus{outline:none}
+ .badge-joined{background:rgba(204,255,0,0.15);color:var(--green);border:1px solid var(--border-glow);padding:3px 10px;border-radius:100px;font-size:.7rem;font-weight:800}
+ .badge-pending{background:rgba(255,107,53,0.15);color:var(--orange);border:1px solid rgba(255,107,53,0.3);padding:3px 10px;border-radius:100px;font-size:.7rem;font-weight:800}
+ 
+ /* 3. AI WORKOUT RECOMMENDATIONS */
+ .ai-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(90deg,var(--green-soft),var(--orange-glow));border:1px solid var(--border-glow);padding:4px 12px;border-radius:100px;font-size:.75rem;font-weight:800;color:var(--green);margin-bottom:12px}
+ .ai-recommendation-card{display:flex;flex-direction:column;justify-content:space-between;border-left:3px solid var(--green)}
+ .ai-match-tag{background:var(--green);color:#000;font-weight:800;padding:2px 8px;border-radius:100px;font-size:.72rem;box-shadow:0 0 10px var(--green-glow)}
+ .why-this-box{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;font-size:.78rem;color:var(--text-dim);margin:10px 0;line-height:1.4}
+
+ /* 4. NUTRITION PLAN */
+ .macro-bar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:16px 0}
+ .macro-item-card{background:var(--bg-elevated);padding:12px;border-radius:var(--r-md);border:1px solid var(--border);text-align:center}
+ .macro-val{font-size:1.2rem;font-weight:800;color:var(--text);margin:2px 0}
+ .meal-item{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--bg-elevated);border-radius:var(--r-md);border:1px solid var(--border);margin-bottom:10px}
+ .meal-macros{display:flex;gap:6px;margin-top:4px}
+ .macro-pill{font-size:.68rem;background:var(--glass);padding:2px 6px;border-radius:4px;color:var(--text-dim);border:1px solid var(--border)}
+ .water-tracker-container{display:flex;flex-direction:column;gap:12px}
+ .water-glasses-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-start}
+ .water-glass-btn{width:44px;height:44px;border-radius:50%;border:2px solid var(--border);background:var(--bg-elevated);color:var(--text-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:all .2s;box-shadow:var(--clay-emboss)}
+ .water-glass-btn.filled{border-color:#38bdf8;background:rgba(56,189,248,0.25);color:#38bdf8;box-shadow:0 0 15px rgba(56,189,248,0.4)}
+ 
+ /* 5. WEARABLE SYNC */
+ .device-card{display:flex;align-items:center;justify-content:space-between;padding:16px;background:var(--bg-elevated);border-radius:var(--r-md);border:1px solid var(--border);margin-bottom:10px}
+ .device-info{display:flex;align-items:center;gap:12px}
+ .device-icon{width:42px;height:42px;border-radius:var(--r-md);background:var(--bg-card);display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:var(--clay-icon)}
+
+ @media(max-width:900px){
+ .dashboard-grid,.workouts-layout,.progress-layout,.profile-grid{grid-template-columns:1fr}
+ .stats-grid{grid-template-columns:1fr}
+ .nav-links-wrapper{display:none}
+ .hamburger{display:block}
+ }
+ </style>
+</head>
+<body>
+
+ <!-- 1. LOGIN OVERLAY (V2 NEW) -->
+ <div class="login-overlay" id="loginOverlay">
+ <div class="login-card">
+ <div class="login-logo">FLEX N TONE</div>
+ <span class="login-badge">MEMBER PORTAL V2</span>
+ <p class="login-tagline">Salford's Premier Strength & Hypertrophy Hub</p>
+ 
+ <form onsubmit="handleLogin(event)">
+ <div class="form-group">
+ <label class="form-label">Member Email</label>
+ <input type="email" class="form-input" id="login-email" value="mark.thomas@flexntone.co.uk" required placeholder="your.email@example.com">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Password</label>
+ <input type="password" class="form-input" id="login-password" value="password123" required placeholder="••••••••">
+ </div>
+ <div class="login-btn-group">
+ <button type="submit" class="btn btn-primary w-full" style="padding:12px">Sign In to Member Portal</button>
+ <button type="button" class="btn btn-secondary w-full" onclick="handleGuestLogin()">Continue as Guest (Demo Mode)</button>
+ </div>
+ </form>
+ <p style="font-size:.7rem; color:var(--text-muted); margin-top:16px;">Demo Pass: Direct access enabled. Switch accounts anytime in settings.</p>
+ </div>
+ </div>
+
+ <!-- TOP NAVIGATION HEADER -->
+ <header class="header">
+ <a href="#" class="logo" onclick="switchSection('my-plan')">
+ ⚡ FLEX N TONE <span class="logo-badge">PORTAL v2</span>
+ </a>
+ 
+ <div class="nav-links-wrapper">
+ <ul class="nav-links">
+ <li><a class="nav-link active" onclick="switchSection('my-plan', this)">My Plan</a></li>
+ <li><a class="nav-link" onclick="switchSection('classes', this)">Classes</a></li>
+ <li><a class="nav-link" onclick="switchSection('ai-coach', this)">AI Coach 🤖</a></li>
+ <li><a class="nav-link" onclick="switchSection('nutrition', this)">Nutrition 🥗</a></li>
+ <li><a class="nav-link" onclick="switchSection('workouts', this)">Workouts</a></li>
+ <li><a class="nav-link" onclick="switchSection('progress', this)">Progress</a></li>
+ <li><a class="nav-link" onclick="switchSection('referral', this)">Refer & Earn 🎁</a></li>
+ <li><a class="nav-link" onclick="switchSection('devices', this)">Devices ⌚</a></li>
+ <li><a class="nav-link" onclick="switchSection('trainers', this)">Trainers</a></li>
+ <li><a class="nav-link" onclick="switchSection('profile', this)">Profile</a></li>
+ </ul>
+ </div>
+
+ <div class="nav-right">
+ <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌙</button>
+ <div class="user-avatar-btn" onclick="switchSection('profile')" title="View Profile">
+ <div class="avatar-circle" id="nav-avatar-circle">MT</div>
+ <div class="user-info">
+ <div class="user-name" id="nav-user-name">Mark Thomas</div>
+ <div class="user-status">● PRO VIP</div>
+ </div>
+ </div>
+ <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+ </div>
+ </header>
+
+ <!-- MOBILE NAVIGATION DRAWER -->
+ <div class="mobile-nav" id="mobileNav">
+ <a class="mobile-nav-link active" onclick="switchSection('my-plan', this); toggleMobileMenu()">My Plan</a>
+ <a class="mobile-nav-link" onclick="switchSection('classes', this); toggleMobileMenu()">Classes</a>
+ <a class="mobile-nav-link" onclick="switchSection('ai-coach', this); toggleMobileMenu()">AI Coach 🤖</a>
+ <a class="mobile-nav-link" onclick="switchSection('nutrition', this); toggleMobileMenu()">Nutrition Plan 🥗</a>
+ <a class="mobile-nav-link" onclick="switchSection('workouts', this); toggleMobileMenu()">Workouts</a>
+ <a class="mobile-nav-link" onclick="switchSection('progress', this); toggleMobileMenu()">Progress</a>
+ <a class="mobile-nav-link" onclick="switchSection('referral', this); toggleMobileMenu()">Refer & Earn 🎁</a>
+ <a class="mobile-nav-link" onclick="switchSection('devices', this); toggleMobileMenu()">Wearables & Devices ⌚</a>
+ <a class="mobile-nav-link" onclick="switchSection('trainers', this); toggleMobileMenu()">Trainers</a>
+ <a class="mobile-nav-link" onclick="switchSection('profile', this); toggleMobileMenu()">Profile & Settings</a>
+ <a class="mobile-nav-link" style="color:var(--orange)" onclick="showLoginOverlay(); toggleMobileMenu()">🔒 Lock / Switch Account</a>
+ </div>
+
+ <!-- MAIN CONTENT WRAPPER -->
+ <main class="main-container">
+
+ <!-- 1. MY PLAN (DASHBOARD) -->
+ <section id="my-plan" class="portal-section active">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">Welcome back, <span id="welcome-name" style="color:var(--green)">Mark</span> 👋</h1>
+ <p class="section-subtitle">Salford, Manchester • Member #FT-8842 • All systems active</p>
+ </div>
+ <div class="flex-gap-10">
+ <button class="btn btn-secondary btn-sm" onclick="switchSection('ai-coach')">🤖 AI Coach</button>
+ <button class="btn btn-primary btn-sm" onclick="openTrainerModal()">+ Book PT Session</button>
+ </div>
+ </div>
+
+ <!-- AI COACH HIGHLIGHT BANNER (V2 NEW) -->
+ <div class="clay-card ai-card" style="margin-bottom:20px;">
+ <div class="flex-between" style="flex-wrap:wrap; gap:10px;">
+ <div>
+ <div class="ai-badge">🤖 AI RECOVERY & CLASS MATCH</div>
+ <h3 class="font-syne" style="font-size:1.15rem;">Leg Destroyer — 94% Match For Today</h3>
+ <p style="font-size:.8rem; color:var(--text-dim); margin-top:2px;">Based on 23 logged workouts: Lower body volume is due for a stimulus boost.</p>
+ </div>
+ <button class="btn btn-primary btn-sm" onclick="toggleClassBooking(4)">Book Recommended Class (Mon 18:30)</button>
+ </div>
+ </div>
+
+ <div class="dashboard-grid">
+ <!-- MEMBERSHIP CARD -->
+ <div class="clay-card membership-card">
+ <span class="card-type-badge">VIP ALL-ACCESS PASSPORT</span>
+ <h2 class="font-syne" style="font-size:1.3rem;">Full + PT + Therapy</h2>
+ <div class="plan-price">£75 <span>/ month</span></div>
+ <div class="membership-details">
+ <div class="detail-item">
+ <div class="label">Next Billing Date</div>
+ <div class="val">1st Sept 2026</div>
+ </div>
+ <div class="detail-item">
+ <div class="label">Member Since</div>
+ <div class="val">15th Jan 2024</div>
+ </div>
+ </div>
+ <div class="barcode-area">
+ <span>PASS ID: FT-8842-MT</span>
+ <span style="letter-spacing:1px;font-size:.72rem;color:var(--green)">● VALID</span>
+ </div>
+ </div>
+
+ <!-- STATS & PT SESSION -->
+ <div class="flex-col gap-14">
+ <div class="stats-grid">
+ <div class="clay-card stat-card">
+ <div class="stat-icon">🏋️</div>
+ <div>
+ <div class="stat-num" id="stat-classes">8</div>
+ <div class="stat-label">Classes This Month</div>
+ </div>
+ </div>
+ <div class="clay-card stat-card">
+ <div class="stat-icon">📝</div>
+ <div>
+ <div class="stat-num" id="stat-workouts">23</div>
+ <div class="stat-label">Workouts Logged</div>
+ </div>
+ </div>
+ <div class="clay-card stat-card">
+ <div class="stat-icon">🔥</div>
+ <div>
+ <div class="stat-num" id="stat-streak">12</div>
+ <div class="stat-label">Day Streak</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- NEXT PT SESSION -->
+ <div class="clay-card">
+ <div class="flex-between" style="margin-bottom:10px;">
+ <h3 class="font-syne" style="font-size:.95rem; color:var(--orange)">Next Personal Training Session</h3>
+ <span style="font-size:.7rem; background:var(--orange-glow); color:var(--orange); padding:2px 8px; border-radius:100px; font-weight:700;">CONFIRMED</span>
+ </div>
+ <div class="pt-card-content">
+ <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=150&q=80" alt="Marcus Vance" class="trainer-thumb">
+ <div>
+ <div style="font-weight:800; font-size:1rem;" id="dashboard-pt-trainer">Marcus Vance</div>
+ <div style="font-size:.78rem; color:var(--text-muted)">1-on-1 Hypertrophy & Form Check</div>
+ <div style="font-size:.8rem; color:var(--green); font-weight:700; margin-top:3px;" id="dashboard-pt-time">🗓️ Friday, Aug 7 • 10:00 AM (Zone 1)</div>
+ </div>
+ </div>
+ <div class="flex-gap-10">
+ <button class="btn btn-secondary btn-sm" onclick="openTrainerModal()">Reschedule</button>
+ <button class="btn btn-secondary btn-sm" onclick="showToast('Message sent to Marcus!')">Message Trainer</button>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- UPCOMING CLASSES -->
+ <div class="clay-card">
+ <div class="flex-between" style="margin-bottom:14px;">
+ <h3 class="font-syne" style="font-size:1.1rem;">Your Booked Upcoming Classes</h3>
+ <button class="btn btn-secondary btn-sm" onclick="switchSection('classes')">View Timetable →</button>
+ </div>
+ <div class="upcoming-list" id="dashboard-upcoming-classes"></div>
+ </div>
+ </section>
+
+ <!-- 2. CLASSES TIMETABLE -->
+ <section id="classes" class="portal-section">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">Live Class Timetable</h1>
+ <p class="section-subtitle">Book your spot in Salford's premiere hypertrophy & strength sessions</p>
+ </div>
+ </div>
+ <div class="filter-bar">
+ <button class="filter-btn active" onclick="filterClasses('all', this)">All Classes</button>
+ <button class="filter-btn" onclick="filterClasses('booked', this)">My Booked (<span id="booked-count">2</span>)</button>
+ <button class="filter-btn" onclick="filterClasses('bodybuilding', this)">Bodybuilding</button>
+ <button class="filter-btn" onclick="filterClasses('strength', this)">Strength & Power</button>
+ <button class="filter-btn" onclick="filterClasses('conditioning', this)">Conditioning</button>
+ <button class="filter-btn" onclick="filterClasses('recovery', this)">Recovery & Therapy</button>
+ </div>
+ <div class="classes-grid" id="classes-grid-container"></div>
+ </section>
+
+ <!-- 3. AI COACH & RECOMMENDATIONS (V2 NEW SECTION) -->
+ <section id="ai-coach" class="portal-section">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">AI Coach & Recommendations 🤖</h1>
+ <p class="section-subtitle">Based on your goals and 23 logged workouts</p>
+ </div>
+ <button class="btn btn-secondary btn-sm" onclick="regenerateAiRecommendations()">🔄 Re-analyze Data</button>
+ </div>
+
+ <div class="clay-card ai-card" style="margin-bottom:24px;">
+ <div class="flex-between" style="flex-wrap:wrap; gap:10px;">
+ <div>
+ <h3 class="font-syne" style="font-size:1.15rem;">Target Focus: Muscle Growth & Leg Power</h3>
+ <p style="font-size:.8rem; color:var(--text-dim); margin-top:2px;">AI recommendation engine updated today at 14:30 based on 6-month hypertrophy progression.</p>
+ </div>
+ <span class="ai-match-tag" style="padding:6px 14px; font-size:.8rem;">OPTIMAL SPLIT ACTIVE</span>
+ </div>
+ </div>
+
+ <h3 class="font-syne" style="font-size:1.2rem; margin-bottom:14px;">Top Recommended Classes For You</h3>
+ <div class="classes-grid" style="margin-bottom:28px;">
+ 
+ <!-- AI RECOMMENDED 1 -->
+ <div class="clay-card class-card ai-recommendation-card">
+ <div>
+ <div class="flex-between" style="margin-bottom:8px;">
+ <span class="class-cat">HYPERTROPHY</span>
+ <span class="ai-match-tag">Leg Destroyer • 94% Match</span>
+ </div>
+ <h3 class="class-title">Hammer Strength Legs Destruction</h3>
+ <div class="class-meta">
+ <div>🕒 Monday • 18:30 PM</div>
+ <div>👤 Trainer: Marcus Vance</div>
+ <div>📍 Zone 1: Leg Room</div>
+ </div>
+ <div class="why-this-box">
+ <strong>Why this?</strong> Your lower body volume was down 18% over the past 10 days. This workout delivers progressive quad hypertrophy without spinal overload.
+ </div>
+ </div>
+ <button class="btn btn-primary btn-sm w-full" onclick="toggleClassBooking(4)">Book Recommended</button>
+ </div>
+
+ <!-- AI RECOMMENDED 2 -->
+ <div class="clay-card class-card ai-recommendation-card">
+ <div>
+ <div class="flex-between" style="margin-bottom:8px;">
+ <span class="class-cat">STRENGTH</span>
+ <span class="ai-match-tag">Bench Masterclass • 87% Match</span>
+ </div>
+ <h3 class="class-title">Hypertrophy Chest & Arms</h3>
+ <div class="class-meta">
+ <div>🕒 Tomorrow (Tue) • 07:00 AM</div>
+ <div>👤 Trainer: Kev O'Connor</div>
+ <div>📍 Zone 1: Hammer Strength</div>
+ </div>
+ <div class="why-this-box">
+ <strong>Why this?</strong> Aligns with your recent 115kg bench press record. Perfect timing for upper body pressing power and lockout stability.
+ </div>
+ </div>
+ <button class="btn btn-primary btn-sm w-full" onclick="toggleClassBooking(1)">Book Recommended</button>
+ </div>
+
+ <!-- AI RECOMMENDED 3 -->
+ <div class="clay-card class-card ai-recommendation-card">
+ <div>
+ <div class="flex-between" style="margin-bottom:8px;">
+ <span class="class-cat">CONDITIONING</span>
+ <span class="ai-match-tag">HIIT Sweat • 72% Match</span>
+ </div>
+ <h3 class="class-title">HIIT Fat Loss & Conditioning</h3>
+ <div class="class-meta">
+ <div>🕒 Tuesday • 18:00 PM</div>
+ <div>👤 Trainer: Kev O'Connor</div>
+ <div>📍 Turf Area</div>
+ </div>
+ <div class="why-this-box">
+ <strong>Why this?</strong> Provides optimal cardiovascular conditioning while protecting lean muscle mass during your current cut phase.
+ </div>
+ </div>
+ <button class="btn btn-primary btn-sm w-full" onclick="toggleClassBooking(5)">Book Recommended</button>
+ </div>
+ </div>
+
+ <!-- WEEKLY SUGGESTED PLAN -->
+ <div class="clay-card">
+ <div class="flex-between" style="margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+ <div>
+ <h3 class="font-syne" style="font-size:1.2rem;">Suggested Weekly AI Training Plan</h3>
+ <p style="font-size:.8rem; color:var(--text-muted);">Tailored to your goal: Hypertrophy & 200kg Squat Target</p>
+ </div>
+ <button class="btn btn-secondary btn-sm" onclick="applyWeeklyPlan()">Apply Plan to Calendar ✓</button>
+ </div>
+
+ <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px;">
+ <div style="background:var(--bg-elevated); padding:14px; border-radius:var(--r-md); border:1px solid var(--border); border-top:3px solid var(--green);">
+ <div style="font-size:.72rem; color:var(--green); font-weight:800; text-transform:uppercase;">Monday</div>
+ <div style="font-weight:800; font-size:.95rem; margin:4px 0;">Legs & Lower Body</div>
+ <div style="font-size:.75rem; color:var(--text-dim);">Focus: Squat & Leg Press Hypertrophy</div>
+ </div>
+ <div style="background:var(--bg-elevated); padding:14px; border-radius:var(--r-md); border:1px solid var(--border); border-top:3px solid var(--orange);">
+ <div style="font-size:.72rem; color:var(--orange); font-weight:800; text-transform:uppercase;">Wednesday</div>
+ <div style="font-weight:800; font-size:.95rem; margin:4px 0;">Chest & Arms Push</div>
+ <div style="font-size:.75rem; color:var(--text-dim);">Focus: Bench Press & Triceps Overload</div>
+ </div>
+ <div style="background:var(--bg-elevated); padding:14px; border-radius:var(--r-md); border:1px solid var(--border); border-top:3px solid var(--green);">
+ <div style="font-size:.72rem; color:var(--green); font-weight:800; text-transform:uppercase;">Friday</div>
+ <div style="font-weight:800; font-size:.95rem; margin:4px 0;">Back & Pull Strength</div>
+ <div style="font-size:.75rem; color:var(--text-dim);">Focus: Heavy Deadlifts & Lat Pulldowns</div>
+ </div>
+ <div style="background:var(--bg-elevated); padding:14px; border-radius:var(--r-md); border:1px solid var(--border); border-top:3px solid var(--text-dim);">
+ <div style="font-size:.72rem; color:var(--text-dim); font-weight:800; text-transform:uppercase;">Sunday</div>
+ <div style="font-weight:800; font-size:.95rem; margin:4px 0;">Active Recovery</div>
+ <div style="font-size:.75rem; color:var(--text-dim);">Focus: Soft Tissue Mobility & Sauna</div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- 4. NUTRITION PLAN (V2 NEW SECTION) -->
+ <section id="nutrition" class="portal-section">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">Personalized Nutrition Plan 🥗</h1>
+ <p class="section-subtitle">Fuel your hypertrophy and target body composition</p>
+ </div>
+ <button class="btn btn-primary btn-sm" onclick="regenerateNutritionPlan()">🔄 Regenerate Plan</button>
+ </div>
+
+ <!-- GOAL & MACRO OVERVIEW -->
+ <div class="clay-card" style="margin-bottom:20px;">
+ <div class="flex-between" style="flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+ <div>
+ <span class="card-type-badge">CURRENT GOAL: BUILD MUSCLE</span>
+ <h3 class="font-syne" style="font-size:1.3rem;"><span id="nutrition-plan-title">Lean Hypertrophy Muscle Plan</span></h3>
+ <p style="font-size:.8rem; color:var(--text-muted);">Daily surplus: +300 kcal • Target Weight: 85.0 kg</p>
+ </div>
+ <div style="text-align:right;">
+ <div style="font-size:.75rem; color:var(--text-muted);">Daily Target</div>
+ <div style="font-size:1.5rem; font-weight:800; color:var(--green);" id="nutrition-target-cal">2,800 kcal</div>
+ </div>
+ </div>
+
+ <div class="macro-bar-grid">
+ <div class="macro-item-card">
+ <div style="font-size:.7rem; color:var(--text-muted); text-transform:uppercase;">Calories</div>
+ <div class="macro-val" id="macro-cal-val">2,150 / 2,800</div>
+ <div class="progress-bar-bg" style="margin-top:6px;"><div class="progress-bar-fill" id="bar-cal" style="width:76%;"></div></div>
+ </div>
+ <div class="macro-item-card">
+ <div style="font-size:.7rem; color:var(--text-muted); text-transform:uppercase;">Protein</div>
+ <div class="macro-val" style="color:var(--green)" id="macro-p-val">155g / 180g</div>
+ <div class="progress-bar-bg" style="margin-top:6px;"><div class="progress-bar-fill" id="bar-p" style="width:86%;"></div></div>
+ </div>
+ <div class="macro-item-card">
+ <div style="font-size:.7rem; color:var(--text-muted); text-transform:uppercase;">Carbs</div>
+ <div class="macro-val" style="color:var(--orange)" id="macro-c-val">240g / 300g</div>
+ <div class="progress-bar-bg" style="margin-top:6px;"><div class="progress-bar-fill" id="bar-c" style="width:80%; background:var(--orange);"></div></div>
+ </div>
+ <div class="macro-item-card">
+ <div style="font-size:.7rem; color:var(--text-muted); text-transform:uppercase;">Fat</div>
+ <div class="macro-val" id="macro-f-val">65g / 80g</div>
+ <div class="progress-bar-bg" style="margin-top:6px;"><div class="progress-bar-fill" id="bar-f" style="width:81%;"></div></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="progress-layout">
+ <!-- DAILY MEAL PLAN LIST -->
+ <div class="clay-card">
+ <div class="flex-between" style="margin-bottom:14px;">
+ <h3 class="font-syne" style="font-size:1.15rem;">Daily Meal Plan (5 Meals)</h3>
+ <span style="font-size:.72rem; color:var(--green); font-weight:700;">ACTIVE MENU</span>
+ </div>
+ <div id="meal-plan-container">
+ <!-- Meals will be rendered dynamically by JS -->
+ </div>
+ </div>
+
+ <!-- WATER TRACKER -->
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.15rem; margin-bottom:6px;">Daily Water Tracker 💧</h3>
+ <p style="font-size:.8rem; color:var(--text-muted); margin-bottom:16px;">Click glasses as you drink to log intake (250ml per glass)</p>
+
+ <div class="water-tracker-container">
+ <div class="water-glasses-row" id="water-glasses-row">
+ <!-- 8 clickable glass buttons -->
+ </div>
+
+ <div style="background:var(--bg-elevated); padding:14px; border-radius:var(--r-md); border:1px solid var(--border); margin-top:10px;">
+ <div class="flex-between" style="font-size:.85rem; font-weight:700;">
+ <span>Water Consumed:</span>
+ <span style="color:#38bdf8;" id="water-status-text">6 / 8 Glasses (1.50L / 2.00L)</span>
+ </div>
+ <div class="progress-bar-bg" style="margin-top:8px;">
+ <div class="progress-bar-fill" id="water-progress-fill" style="width:75%; background:#38bdf8; box-shadow:0 0 10px rgba(56,189,248,0.5);"></div>
+ </div>
+ </div>
+ <button class="btn btn-secondary btn-sm" style="margin-top:6px;" onclick="resetWaterTracker()">Reset Water Counter</button>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- 5. REFERRAL SYSTEM (V2 NEW SECTION) -->
+ <section id="referral" class="portal-section">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">Refer & Earn Free Membership 🎁</h1>
+ <p class="section-subtitle">Bring your gym partners to Flex N Tone and earn free months</p>
+ </div>
+ </div>
+
+ <div class="clay-card ref-card" style="margin-bottom:20px;">
+ <h3 class="font-syne" style="font-size:1.25rem;">Your Unique Referral Link</h3>
+ <p style="font-size:.8rem; color:var(--text-muted); margin-top:2px;">Share this link with friends. When they join, both of you get 1 Month Free!</p>
+ 
+ <div class="ref-link-box">
+ <span>🔗</span>
+ <input type="text" class="ref-link-input" id="ref-link-val" value="flexntone.co.uk/ref/MARK-T" readonly>
+ <button class="btn btn-primary btn-sm" id="copy-ref-btn" onclick="copyReferralLink()">Copy Link</button>
+ </div>
+
+ <div class="share-btn-group">
+ <button class="btn btn-secondary btn-sm" onclick="shareReferral('whatsapp')">📱 Share via WhatsApp</button>
+ <button class="btn btn-secondary btn-sm" onclick="shareReferral('instagram')">📸 Share on Instagram</button>
+ <button class="btn btn-secondary btn-sm" onclick="shareReferral('email')">✉️ Email Invite</button>
+ </div>
+ </div>
+
+ <!-- STATS GRID -->
+ <div class="stats-grid" style="margin-bottom:20px;">
+ <div class="clay-card stat-card">
+ <div class="stat-icon">👥</div>
+ <div>
+ <div class="stat-num" id="stat-friends-ref">3</div>
+ <div class="stat-label">Friends Referred</div>
+ </div>
+ </div>
+ <div class="clay-card stat-card">
+ <div class="stat-icon">🎁</div>
+ <div>
+ <div class="stat-num">2</div>
+ <div class="stat-label">Months Earned Free</div>
+ </div>
+ </div>
+ <div class="clay-card stat-card">
+ <div class="stat-icon">💷</div>
+ <div>
+ <div class="stat-num">£80</div>
+ <div class="stat-label">Total Saved</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- PROGRESS BAR CARD -->
+ <div class="clay-card" style="margin-bottom:20px;">
+ <div class="flex-between" style="margin-bottom:8px;">
+ <h3 class="font-syne" style="font-size:1.1rem;">Next Reward Tier</h3>
+ <span style="font-size:.8rem; font-weight:800; color:var(--green)">1 more referral = 1 month free!</span>
+ </div>
+ <div class="progress-bar-bg" style="height:10px;"><div class="progress-bar-fill" style="width:75%;"></div></div>
+ <div style="font-size:.72rem; color:var(--text-muted); margin-top:6px;">3 of 4 successful referrals completed for Tier 2 reward.</div>
+ </div>
+
+ <!-- RECENT REFERRALS LIST -->
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.15rem; margin-bottom:14px;">Recent Referrals Status</h3>
+ <div style="display:flex; flex-direction:column; gap:10px;">
+ <div class="upcoming-item">
+ <div>
+ <div style="font-weight:700; font-size:.9rem;">Alex Reed</div>
+ <div style="font-size:.75rem; color:var(--text-muted);">Joined Aug 1, 2026 • VIP Membership</div>
+ </div>
+ <span class="badge-joined">Joined ✓ (1 Month Free Earned)</span>
+ </div>
+ <div class="upcoming-item">
+ <div>
+ <div style="font-weight:700; font-size:.9rem;">Sarah Jenkins</div>
+ <div style="font-size:.75rem; color:var(--text-muted);">Joined Jul 18, 2026 • Standard Pass</div>
+ </div>
+ <span class="badge-joined">Joined ✓ (1 Month Free Earned)</span>
+ </div>
+ <div class="upcoming-item">
+ <div>
+ <div style="font-weight:700; font-size:.9rem;">David Kim</div>
+ <div style="font-size:.75rem; color:var(--text-muted);">Invited Jul 29, 2026 • Pass Sent</div>
+ </div>
+ <span class="badge-pending">Pending (Awaiting First Check-in)</span>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- 6. WEARABLE SYNC & DEVICES (V2 NEW SECTION) -->
+ <section id="devices" class="portal-section">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">Connected Devices & Wearables ⌚</h1>
+ <p class="section-subtitle">Sync your biometric data, step counts, and active calories automatically</p>
+ </div>
+ <button class="btn btn-primary btn-sm" id="sync-now-btn" onclick="syncWearables()">🔄 Sync Now</button>
+ </div>
+
+ <!-- LIVE SYNC STATS -->
+ <div class="stats-grid" style="margin-bottom:20px;">
+ <div class="clay-card stat-card">
+ <div class="stat-icon">👟</div>
+ <div>
+ <div class="stat-num" id="wearable-steps">8,432</div>
+ <div class="stat-label">Steps Today (Goal: 10,000)</div>
+ </div>
+ </div>
+ <div class="clay-card stat-card">
+ <div class="stat-icon">🔥</div>
+ <div>
+ <div class="stat-num" id="wearable-cals">642</div>
+ <div class="stat-label">Active Calories Burned</div>
+ </div>
+ </div>
+ <div class="clay-card stat-card">
+ <div class="stat-icon">⏱️</div>
+ <div>
+ <div class="stat-num" id="wearable-mins">45</div>
+ <div class="stat-label">Active Training Mins</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- DEVICE LIST -->
+ <div class="clay-card">
+ <div class="flex-between" style="margin-bottom:14px; flex-wrap:wrap;">
+ <h3 class="font-syne" style="font-size:1.15rem;">Integrations & Hardware</h3>
+ <span style="font-size:.75rem; color:var(--text-muted);" id="last-sync-time">Last synced: Today, 14:32 PM</span>
+ </div>
+
+ <div class="device-card">
+ <div class="device-info">
+ <div class="device-icon">🍎</div>
+ <div>
+ <div style="font-weight:800; font-size:.95rem;">Apple Health</div>
+ <div style="font-size:.75rem; color:var(--text-muted);">Steps, Heart Rate, Activity Rings</div>
+ </div>
+ </div>
+ <div class="flex-gap-10" style="align-items:center;">
+ <span class="badge-joined" id="badge-apple">Connected ✓</span>
+ <button class="btn btn-secondary btn-sm" id="btn-apple" onclick="toggleDeviceSync('apple')">Disconnect</button>
+ </div>
+ </div>
+
+ <div class="device-card">
+ <div class="device-info">
+ <div class="device-icon">🤖</div>
+ <div>
+ <div style="font-weight:800; font-size:.95rem;">Google Fit</div>
+ <div style="font-size:.75rem; color:var(--text-muted);">Daily Movement & Recovery Points</div>
+ </div>
+ </div>
+ <div class="flex-gap-10" style="align-items:center;">
+ <span class="badge-pending" id="badge-google">Not Connected</span>
+ <button class="btn btn-primary btn-sm" id="btn-google" onclick="toggleDeviceSync('google')">Connect Device</button>
+ </div>
+ </div>
+
+ <div class="device-card">
+ <div class="device-info">
+ <div class="device-icon">⌚</div>
+ <div>
+ <div style="font-weight:800; font-size:.95rem;">Fitbit</div>
+ <div style="font-size:.75rem; color:var(--text-muted);">Sleep Score, Resting HR & Workouts</div>
+ </div>
+ </div>
+ <div class="flex-gap-10" style="align-items:center;">
+ <span class="badge-pending" id="badge-fitbit">Not Connected</span>
+ <button class="btn btn-primary btn-sm" id="btn-fitbit" onclick="toggleDeviceSync('fitbit')">Connect Device</button>
+ </div>
+ </div>
+
+ <div class="device-card">
+ <div class="device-info">
+ <div class="device-icon">📡</div>
+ <div>
+ <div style="font-weight:800; font-size:.95rem;">Garmin Connect</div>
+ <div style="font-size:.75rem; color:var(--text-muted);">VO2 Max, Stress Score & Laps</div>
+ </div>
+ </div>
+ <div class="flex-gap-10" style="align-items:center;">
+ <span class="badge-pending" id="badge-garmin">Not Connected</span>
+ <button class="btn btn-primary btn-sm" id="btn-garmin" onclick="toggleDeviceSync('garmin')">Connect Device</button>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- 7. TRAINERS SECTION -->
+ <section id="trainers" class="portal-section">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">Master Trainers & Specialists</h1>
+ <p class="section-subtitle">Book 1-on-1 coaching, prep, or recovery sessions with expert trainers</p>
+ </div>
+ </div>
+ <div class="trainers-grid">
+ <div class="clay-card trainer-card">
+ <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300&q=80" alt="Marcus Vance" class="trainer-img">
+ <div class="trainer-name">Marcus Vance</div>
+ <div class="trainer-role">Head Bodybuilding Coach</div>
+ <p style="font-size:.75rem; color:var(--text-muted);">12+ Yrs Exp • NABBA Pro</p>
+ <div class="trainer-badges">
+ <span class="badge-item">Hypertrophy</span>
+ <span class="badge-item">Contest Prep</span>
+ <span class="badge-item">Hammer Strength</span>
+ </div>
+ <button class="btn btn-primary btn-sm w-full" onclick="openTrainerModal('Marcus Vance')">Book Session</button>
+ </div>
+ <div class="clay-card trainer-card">
+ <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80" alt="Sarah Jenkins" class="trainer-img">
+ <div class="trainer-name">Sarah Jenkins</div>
+ <div class="trainer-role">Powerlifting Specialist</div>
+ <p style="font-size:.75rem; color:var(--text-muted);">8+ Yrs Exp • GB Powerlifter</p>
+ <div class="trainer-badges">
+ <span class="badge-item">Squat/Bench/DL</span>
+ <span class="badge-item">Biomechanics</span>
+ <span class="badge-item">Strength</span>
+ </div>
+ <button class="btn btn-primary btn-sm w-full" onclick="openTrainerModal('Sarah Jenkins')">Book Session</button>
+ </div>
+ <div class="clay-card trainer-card">
+ <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&q=80" alt="Kev O'Connor" class="trainer-img">
+ <div class="trainer-name">Kev O'Connor</div>
+ <div class="trainer-role">Conditioning & Physique</div>
+ <p style="font-size:.75rem; color:var(--text-muted);">6+ Yrs Exp • Ex-Rugby Coach</p>
+ <div class="trainer-badges">
+ <span class="badge-item">Fat Loss</span>
+ <span class="badge-item">Posing</span>
+ <span class="badge-item">HIIT</span>
+ </div>
+ <button class="btn btn-primary btn-sm w-full" onclick="openTrainerModal('Kev O'Connor')">Book Session</button>
+ </div>
+ <div class="clay-card trainer-card">
+ <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=300&q=80" alt="Dr. Elena Rostova" class="trainer-img">
+ <div class="trainer-name">Dr. Elena Rostova</div>
+ <div class="trainer-role">Sports Rehab & Therapist</div>
+ <p style="font-size:.75rem; color:var(--text-muted);">10+ Yrs Exp • M.Sc Physio</p>
+ <div class="trainer-badges">
+ <span class="badge-item">Soft Tissue</span>
+ <span class="badge-item">Mobility</span>
+ <span class="badge-item">Injury Rehab</span>
+ </div>
+ <button class="btn btn-primary btn-sm w-full" onclick="openTrainerModal('Dr. Elena Rostova')">Book Session</button>
+ </div>
+ </div>
+ </section>
+
+ <!-- 8. WORKOUTS SECTION -->
+ <section id="workouts" class="portal-section">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">Workout Logger & Records</h1>
+ <p class="section-subtitle">Track every lift, log your sets, and celebrate new personal records</p>
+ </div>
+ </div>
+ <div class="workouts-layout">
+ <!-- FORM -->
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:14px;">Log New Session</h3>
+ <form id="workout-form" onsubmit="handleSaveWorkout(event)">
+ <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+ <div class="form-group">
+ <label class="form-label">Date</label>
+ <input type="date" class="form-input" id="workout-date" value="2026-08-03" required>
+ </div>
+ <div class="form-group">
+ <label class="form-label">Workout Title</label>
+ <input type="text" class="form-input" id="workout-title" placeholder="Push Day - Heavy Chest" required>
+ </div>
+ </div>
+ <label class="form-label">Exercises</label>
+ <table class="exercise-table">
+ <thead>
+ <tr>
+ <th>Exercise Name</th>
+ <th style="width:55px">Sets</th>
+ <th style="width:55px">Reps</th>
+ <th style="width:75px">Kg</th>
+ <th style="width:25px"></th>
+ </tr>
+ </thead>
+ <tbody id="exercise-rows-container">
+ <tr>
+ <td><input type="text" class="form-input" value="Incline DB Press" required></td>
+ <td><input type="number" class="form-input" value="4" min="1" required></td>
+ <td><input type="number" class="form-input" value="10" min="1" required></td>
+ <td><input type="number" class="form-input" value="40" step="0.5" required></td>
+ <td><button type="button" class="btn btn-danger btn-sm" onclick="removeExerciseRow(this)">✕</button></td>
+ </tr>
+ </tbody>
+ </table>
+ <div class="flex-between" style="margin-top:12px;">
+ <button type="button" class="btn btn-secondary btn-sm" onclick="addExerciseRow()">+ Add Row</button>
+ <button type="submit" class="btn btn-primary">Save Workout Session</button>
+ </div>
+ </form>
+ </div>
+ <!-- RECENT -->
+ <div>
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:14px;">Recent Logged Sessions</h3>
+ <div id="recent-workouts-container"></div>
+ </div>
+ </div>
+ <!-- PERSONAL RECORDS -->
+ <div style="margin-top:28px;">
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:14px;">🏆 Personal Records (PRs)</h3>
+ <div class="pr-grid">
+ <div class="pr-card">
+ <div style="font-size:.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Bench Press</div>
+ <div class="pr-val">120 kg</div>
+ <div style="font-size:.68rem; color:var(--text-dim)">Logged 14th July 2026</div>
+ </div>
+ <div class="pr-card">
+ <div style="font-size:.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Squat</div>
+ <div class="pr-val">180 kg</div>
+ <div style="font-size:.68rem; color:var(--text-dim)">Logged 2nd Aug 2026</div>
+ </div>
+ <div class="pr-card">
+ <div style="font-size:.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Deadlift</div>
+ <div class="pr-val">200 kg</div>
+ <div style="font-size:.68rem; color:var(--text-dim)">Logged 29th July 2026</div>
+ </div>
+ <div class="pr-card">
+ <div style="font-size:.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Strict Press</div>
+ <div class="pr-val">85 kg</div>
+ <div style="font-size:.68rem; color:var(--text-dim)">Logged 10th June 2026</div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- 9. PROGRESS SECTION -->
+ <section id="progress" class="portal-section">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">Body Composition & Goals</h1>
+ <p class="section-subtitle">Track your physical transformation, weight trend, and fitness targets</p>
+ </div>
+ </div>
+ <div class="progress-layout">
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:14px;">Body Metrics Comparison</h3>
+ <div class="metric-row">
+ <div class="metric-label-group">
+ <span>Weight (kg)</span>
+ <span style="color:var(--green)">84.5 kg <span style="font-size:.7rem; color:var(--text-muted);">(Start: 92.0 | Target: 82.0)</span></span>
+ </div>
+ <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:75%;"></div></div>
+ </div>
+ <div class="metric-row">
+ <div class="metric-label-group">
+ <span>Body Fat (%)</span>
+ <span style="color:var(--green)">13.8% <span style="font-size:.7rem; color:var(--text-muted);">(Start: 22.0% | Target: 12.0%)</span></span>
+ </div>
+ <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:82%;"></div></div>
+ </div>
+ <div class="metric-row">
+ <div class="metric-label-group">
+ <span>Muscle Mass (kg)</span>
+ <span style="color:var(--green)">42.1 kg <span style="font-size:.7rem; color:var(--text-muted);">(Start: 38.2 | Target: 43.0)</span></span>
+ </div>
+ <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:81%;"></div></div>
+ </div>
+ </div>
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:6px;">6-Month Weight Progression</h3>
+ <p style="font-size:.75rem; color:var(--text-muted); margin-bottom:10px;">Steady cut down from 92kg to 84.5kg</p>
+ <div class="chart-container">
+ <svg class="chart-svg" viewBox="0 0 500 180">
+ <defs>
+ <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0%" stop-color="#CCFF00" stop-opacity="0.35"/>
+ <stop offset="100%" stop-color="#CCFF00" stop-opacity="0.0"/>
+ </linearGradient>
+ </defs>
+ <line x1="40" y1="30" x2="480" y2="30" stroke="var(--border)" stroke-dasharray="4"/>
+ <line x1="40" y1="80" x2="480" y2="80" stroke="var(--border)" stroke-dasharray="4"/>
+ <line x1="40" y1="130" x2="480" y2="130" stroke="var(--border)" stroke-dasharray="4"/>
+ <polygon points="50,40 130,60 210,85 290,105 370,120 450,128 450,160 50,160" fill="url(#chartGrad)"/>
+ <polyline points="50,40 130,60 210,85 290,105 370,120 450,128" fill="none" stroke="#CCFF00" stroke-width="3" stroke-linecap="round"/>
+ <circle cx="50" cy="40" r="4" fill="#CCFF00"/>
+ <circle cx="130" cy="60" r="4" fill="#CCFF00"/>
+ <circle cx="210" cy="85" r="4" fill="#CCFF00"/>
+ <circle cx="290" cy="105" r="4" fill="#CCFF00"/>
+ <circle cx="370" cy="120" r="4" fill="#CCFF00"/>
+ <circle cx="450" cy="128" r="5" fill="#FF6B35" stroke="#fff" stroke-width="2"/>
+ <text x="50" y="175" fill="var(--text-muted)" font-size="10" text-anchor="middle">Mar (92kg)</text>
+ <text x="130" y="175" fill="var(--text-muted)" font-size="10" text-anchor="middle">Apr (90kg)</text>
+ <text x="210" y="175" fill="var(--text-muted)" font-size="10" text-anchor="middle">May (88kg)</text>
+ <text x="290" y="175" fill="var(--text-muted)" font-size="10" text-anchor="middle">Jun (86.5kg)</text>
+ <text x="370" y="175" fill="var(--text-muted)" font-size="10" text-anchor="middle">Jul (85kg)</text>
+ <text x="450" y="175" fill="var(--green)" font-size="10" font-weight="700" text-anchor="middle">Aug (84.5kg)</text>
+ </svg>
+ </div>
+ </div>
+ </div>
+ <div class="progress-layout">
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:14px;">Transformation Gallery</h3>
+ <div class="photo-slots-grid">
+ <div class="photo-slot" onclick="showToast('Viewing Month 0 photo')">
+ <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=80" class="photo-img" alt="Before">
+ <div class="photo-tag">Month 0 (Start)</div>
+ </div>
+ <div class="photo-slot" onclick="showToast('Viewing Month 3 photo')">
+ <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&q=80" class="photo-img" alt="3 Months">
+ <div class="photo-tag">3 Months</div>
+ </div>
+ <div class="photo-slot" onclick="showToast('Upload or update photo')">
+ <div style="font-size:1.6rem; color:var(--green)">📷</div>
+ <div style="font-size:.7rem; color:var(--text-dim); margin-top:2px;">Upload 6 Month</div>
+ <div class="photo-tag">6 Months (Current)</div>
+ </div>
+ </div>
+ </div>
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:14px;">Active Fitness Goals</h3>
+ <div class="goals-list">
+ <div>
+ <div class="flex-between" style="font-size:.8rem; font-weight:700; margin-bottom:3px;">
+ <span>Squat 200kg Single</span>
+ <span style="color:var(--green)">180kg / 200kg (90%)</span>
+ </div>
+ <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:90%;"></div></div>
+ </div>
+ <div>
+ <div class="flex-between" style="font-size:.8rem; font-weight:700; margin-bottom:3px;">
+ <span>Single Digit Body Fat (9%)</span>
+ <span style="color:var(--orange)">13.8% → 9% (72%)</span>
+ </div>
+ <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:72%; background:var(--orange)"></div></div>
+ </div>
+ <div>
+ <div class="flex-between" style="font-size:.8rem; font-weight:700; margin-bottom:3px;">
+ <span>30-Day Workout Streak</span>
+ <span style="color:var(--green)">12 / 30 Days (40%)</span>
+ </div>
+ <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:40%;"></div></div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- 10. PROFILE & SETTINGS -->
+ <section id="profile" class="portal-section">
+ <div class="section-header">
+ <div>
+ <h1 class="section-title">Account Profile & Settings</h1>
+ <p class="section-subtitle">Manage member details, preferences, notification alerts, and billing</p>
+ </div>
+ <button class="btn btn-secondary btn-sm" onclick="showLoginOverlay()">🔒 Lock Session / Switch User</button>
+ </div>
+ <div class="profile-grid">
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:14px;">Personal Details</h3>
+ <form onsubmit="handleSaveProfile(event)">
+ <div class="form-group">
+ <label class="form-label">Full Name</label>
+ <input type="text" class="form-input" id="profile-name-input" value="Mark Thomas" required>
+ </div>
+ <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+ <div class="form-group">
+ <label class="form-label">Phone</label>
+ <input type="tel" class="form-input" value="+44 7700 900123" required>
+ </div>
+ <div class="form-group">
+ <label class="form-label">Email</label>
+ <input type="email" class="form-input" id="profile-email-input" value="mark.thomas@flexntone.co.uk" required>
+ </div>
+ </div>
+ <div class="form-group">
+ <label class="form-label">Emergency Contact</label>
+ <input type="text" class="form-input" value="Sarah Thomas (+44 7700 900987)">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Membership Tier</label>
+ <select class="form-select">
+ <option value="vip" selected>Full + PT + Therapy (£75/mo)</option>
+ <option value="standard">Standard Gym Access (£40/mo)</option>
+ <option value="offpeak">Off-Peak Access (£30/mo)</option>
+ <option value="elite">Elite VIP All-Access (£95/mo)</option>
+ </select>
+ </div>
+ <div class="form-group">
+ <label class="form-label">Personal Goals</label>
+ <textarea class="form-textarea" rows="3">Build classic aesthetic physique, achieve 200kg deadlift, and prepare for NABBA amateur entry.</textarea>
+ </div>
+ <button type="submit" class="btn btn-primary w-full">Save Profile Changes</button>
+ </form>
+ </div>
+ <div class="flex-col gap-14">
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:10px;">Notification Alerts</h3>
+ <div class="toggle-row">
+ <div>
+ <div class="toggle-label-title">Class Reminders</div>
+ <div class="toggle-label-sub">SMS & Push 1 hour before class</div>
+ </div>
+ <div class="clay-switch active" onclick="this.classList.toggle('active')"><div class="clay-switch-handle"></div></div>
+ </div>
+ <div class="toggle-row">
+ <div>
+ <div class="toggle-label-title">Promo & Event Announcements</div>
+ <div class="toggle-label-sub">Emails about gym competitions & news</div>
+ </div>
+ <div class="clay-switch" onclick="this.classList.toggle('active')"><div class="clay-switch-handle"></div></div>
+ </div>
+ <div class="toggle-row">
+ <div>
+ <div class="toggle-label-title">Trainer Direct Messages</div>
+ <div class="toggle-label-sub">In-app chat alerts from your coach</div>
+ </div>
+ <div class="clay-switch active" onclick="this.classList.toggle('active')"><div class="clay-switch-handle"></div></div>
+ </div>
+ </div>
+ <div class="clay-card">
+ <h3 class="font-syne" style="font-size:1.1rem; margin-bottom:10px;">Billing & Payment</h3>
+ <div class="flex-between" style="margin-bottom:10px; font-size:.85rem;">
+ <span style="color:var(--text-muted)">Current Card:</span>
+ <span style="font-weight:700;">💳 Visa ending in 4242</span>
+ </div>
+ <div class="flex-between" style="margin-bottom:14px; font-size:.85rem;">
+ <span style="color:var(--text-muted)">Next Recurring Charge:</span>
+ <span style="font-weight:700; color:var(--green)">£75.00 on Sept 1, 2026</span>
+ </div>
+ <div class="flex-gap-10" style="margin-bottom:14px;">
+ <button class="btn btn-secondary btn-sm" style="flex:1" onclick="showToast('Payment update email sent!')">Update Card</button>
+ <button class="btn btn-secondary btn-sm" style="flex:1" onclick="showToast('Downloading invoice PDF...')">Download Invoice</button>
+ </div>
+ <hr style="border:none; border-top:1px solid var(--border); margin:14px 0;">
+ <div style="text-align:center;">
+ <button class="btn btn-danger btn-sm" onclick="openCancelModal()">Cancel Membership</button>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+ </main>
+
+ <!-- TRAINER BOOKING MODAL -->
+ <div class="modal-overlay" id="trainerModal">
+ <div class="modal-box">
+ <button class="modal-close" onclick="closeTrainerModal()">✕</button>
+ <h3 class="font-syne" style="font-size:1.2rem; margin-bottom:4px;" id="modal-trainer-title">Book PT Session</h3>
+ <p style="font-size:.78rem; color:var(--text-muted); margin-bottom:16px;">Select your preferred time slot for 1-on-1 coaching at Salford.</p>
+ <div class="form-group">
+ <label class="form-label">Date</label>
+ <input type="date" class="form-input" value="2026-08-07">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Available Timeslots</label>
+ <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px;">
+ <button class="btn btn-secondary btn-sm" onclick="selectTimeSlot(this)">09:00 AM</button>
+ <button class="btn btn-primary btn-sm" onclick="selectTimeSlot(this)">10:00 AM (Selected)</button>
+ <button class="btn btn-secondary btn-sm" onclick="selectTimeSlot(this)">14:00 PM</button>
+ <button class="btn btn-secondary btn-sm" onclick="selectTimeSlot(this)">17:30 PM</button>
+ </div>
+ </div>
+ <div class="form-group">
+ <label class="form-label">Session Focus</label>
+ <select class="form-select">
+ <option>Hypertrophy & Form Correction</option>
+ <option>Powerlifting Heavy Attempt Prep</option>
+ <option>Soft Tissue Mobility & Therapy</option>
+ <option>Physique Posing & Conditioning</option>
+ </select>
+ </div>
+ <div class="flex-gap-10" style="margin-top:18px;">
+ <button class="btn btn-secondary" style="flex:1" onclick="closeTrainerModal()">Cancel</button>
+ <button class="btn btn-primary" style="flex:1" onclick="confirmPTBooking()">Confirm Booking</button>
+ </div>
+ </div>
+ </div>
+
+ <!-- CANCEL MEMBERSHIP MODAL -->
+ <div class="modal-overlay" id="cancelModal">
+ <div class="modal-box">
+ <button class="modal-close" onclick="closeCancelModal()">✕</button>
+ <h3 class="font-syne" style="font-size:1.2rem; color:#ff4b4b; margin-bottom:6px;">Cancel Membership?</h3>
+ <p style="font-size:.82rem; color:var(--text-dim); margin-bottom:14px;">We're sorry to see you go! Your access will remain active until September 1, 2026.</p>
+ <div class="form-group">
+ <label class="form-label">Reason for Cancellation</label>
+ <select class="form-select">
+ <option>Relocating away from Salford</option>
+ <option>Schedule conflict</option>
+ <option>Financial reasons</option>
+ <option>Other</option>
+ </select>
+ </div>
+ <div class="flex-gap-10" style="margin-top:18px;">
+ <button class="btn btn-secondary" style="flex:1" onclick="closeCancelModal()">Keep Membership</button>
+ <button class="btn btn-danger" style="flex:1" onclick="confirmCancelMembership()">Confirm Cancellation</button>
+ </div>
+ </div>
+ </div>
+
+ <!-- TOAST CONTAINER -->
+ <div class="toast-container" id="toastContainer"></div>
+
+ <script>
+ // DATA STRUCTURES
+ let classData = [
+ { id: 1, title: 'Hypertrophy Chest & Arms', time: 'Tomorrow (Tue) • 07:00 AM', trainer: "Kev O'Connor", zone: 'Zone 1: Hammer Strength', category: 'bodybuilding', capacity: 15, bookedCount: 12, isBooked: true },
+ { id: 2, title: 'Powerlifting Squat Workshop', time: 'Thursday • 18:00 PM', trainer: 'Sarah Jenkins', zone: 'Zone 3: Power Racks', category: 'strength', capacity: 10, bookedCount: 8, isBooked: true },
+ { id: 3, title: 'Classic Physique Posing & Pump', time: 'Wednesday • 17:30 PM', trainer: 'Marcus Vance', zone: 'Posing Studio', category: 'bodybuilding', capacity: 8, bookedCount: 6, isBooked: false },
+ { id: 4, title: 'Hammer Strength Legs Destruction', time: 'Monday • 18:30 PM', trainer: 'Marcus Vance', zone: 'Zone 1: Leg Room', category: 'bodybuilding', capacity: 15, bookedCount: 15, isBooked: false },
+ { id: 5, title: 'HIIT Fat Loss & Conditioning', time: 'Tuesday • 18:00 PM', trainer: "Kev O'Connor", zone: 'Turf Area', category: 'conditioning', capacity: 16, bookedCount: 10, isBooked: false },
+ { id: 6, title: 'Deadlift Technical Precision', time: 'Friday • 17:00 PM', trainer: 'Sarah Jenkins', zone: 'Zone 3: Platforms', category: 'strength', capacity: 8, bookedCount: 7, isBooked: false },
+ { id: 7, title: 'Deep Tissue Therapy & Mobility', time: 'Saturday • 10:00 AM', trainer: 'Dr. Elena Rostova', zone: 'Therapy Suite B', category: 'recovery', capacity: 6, bookedCount: 4, isBooked: false },
+ { id: 8, title: 'Sunday Heavy Iron Club', time: 'Sunday • 10:30 AM', trainer: 'Marcus Vance', zone: 'Main Floor', category: 'strength', capacity: 20, bookedCount: 14, isBooked: false },
+ { id: 9, title: 'Core & Postural Alignment', time: 'Thursday • 08:00 AM', trainer: 'Dr. Elena Rostova', zone: 'Studio B', category: 'recovery', capacity: 12, bookedCount: 5, isBooked: false }
+ ];
+
+ let recentWorkouts = [
+ { id: 1, date: 'Yesterday (Aug 2)', title: 'Heavy Leg Day', exercises: ['Barbell Squat: 180kg x 5 reps (3 sets)', 'Hammer Leg Press: 320kg x 10 reps (4 sets)', 'Lying Leg Curl: 70kg x 12 reps (3 sets)'] },
+ { id: 2, date: 'Jul 31, 2026', title: 'Push Hypertrophy', exercises: ['Incline DB Press: 44kg x 8 reps (4 sets)', 'Barbell Bench Press: 115kg x 6 reps (3 sets)', 'Cable Lateral Raises: 15kg x 15 reps (4 sets)'] },
+ { id: 3, date: 'Jul 29, 2026', title: 'Pull & Back Power', exercises: ['Conventional Deadlift: 200kg x 3 reps (3 sets) ★ PR', 'Heavy Barbell Row: 100kg x 8 reps (4 sets)', 'Lat Pulldown: 85kg x 12 reps (3 sets)'] }
+ ];
+
+ // NUTRITION PLANS DATA (FOR REGENERATE CYCLING)
+ const nutritionPlans = [
+ {
+ title: 'High Protein Muscle Gain',
+ targetCal: '2,800 kcal',
+ calVal: '2,150 / 2,800', pVal: '155g / 180g', cVal: '240g / 300g', fVal: '65g / 80g',
+ pPercent: 86, cPercent: 80, calPercent: 76,
+ meals: [
+ { type: 'Breakfast', name: '4 Whole Eggs, Wholewheat Toast, Avocado & Spinach', macros: '650 kcal • 42g P • 45g C • 22g F' },
+ { type: 'Lunch', name: 'Grilled Chicken Breast (200g), Basmati Rice (250g), Broccoli', macros: '720 kcal • 55g P • 80g C • 12g F' },
+ { type: 'Snack / Pre-workout', name: 'Greek Yogurt (200g), Honey, Banana & Almonds', macros: '410 kcal • 24g P • 50g C • 10g F' },
+ { type: 'Dinner', name: 'Lean Sirloin Steak (220g), Sweet Potato Mash & Asparagus', macros: '680 kcal • 48g P • 65g C • 18g F' },
+ { type: 'Evening Recovery', name: 'Casein Protein Shake, Peanut Butter & Rice Cakes', macros: '340 kcal • 32g P • 22g C • 12g F' }
+ ]
+ },
+ {
+ title: 'Lean Bulk & Athletic Performance',
+ targetCal: '2,950 kcal',
+ calVal: '2,300 / 2,950', pVal: '165g / 190g', cVal: '280g / 340g', fVal: '70g / 85g',
+ pPercent: 87, cPercent: 82, calPercent: 78,
+ meals: [
+ { type: 'Breakfast', name: 'Oatmeal (100g) with Whey Protein, Berries & Peanut Butter', macros: '680 kcal • 45g P • 75g C • 18g F' },
+ { type: 'Lunch', name: 'Turkey Breast Mince (220g), Jasmine Rice & Roasted Peppers', macros: '750 kcal • 58g P • 85g C • 14g F' },
+ { type: 'Snack', name: 'Cottage Cheese, Pineapple & Walnuts', macros: '380 kcal • 28g P • 30g C • 12g F' },
+ { type: 'Dinner', name: 'Baked Atlantic Salmon (200g), Quinoa & Steamed Vegetables', macros: '710 kcal • 46g P • 58g C • 24g F' },
+ { type: 'Evening Recovery', name: 'Protein Smoothie with Whey, Oats & Almond Milk', macros: '430 kcal • 34g P • 45g C • 10g F' }
+ ]
+ },
+ {
+ title: 'Powerlifting High Energy Plan',
+ targetCal: '3,100 kcal',
+ calVal: '2,500 / 3,100', pVal: '170g / 200g', cVal: '310g / 370g', fVal: '75g / 90g',
+ pPercent: 85, cPercent: 84, calPercent: 80,
+ meals: [
+ { type: 'Breakfast', name: '3 Scrambled Eggs + 2 Whites, Bagel with Cream Cheese', macros: '720 kcal • 48g P • 60g C • 24g F' },
+ { type: 'Lunch', name: 'Rump Steak (250g), Baked Potatoes & Green Beans', macros: '820 kcal • 62g P • 75g C • 20g F' },
+ { type: 'Pre-Workout', name: 'Rice Krispies with Milk & Whey Isolate Shake', macros: '450 kcal • 30g P • 70g C • 5g F' },
+ { type: 'Dinner', name: 'Pasta Bolognese with Extra Lean Beef (220g) & Parmesan', macros: '780 kcal • 52g P • 85g C • 18g F' },
+ { type: 'Evening Recovery', name: 'Greek Yogurt, Dark Chocolate & Chia Seeds', macros: '330 kcal • 25g P • 25g C • 12g F' }
+ ]
+ }
+ ];
+
+ let currentNutritionPlanIdx = 0;
+ let filledWaterCount = 6;
+ let activeFilter = 'all';
+
+ document.addEventListener('DOMContentLoaded', () => {
+ renderClasses();
+ renderDashboardUpcoming();
+ renderWorkouts();
+ renderWaterTracker();
+ renderNutritionPlan();
+ });
+
+ // LOGIN & GUEST SYSTEM
+ function handleLogin(e) {
+ e.preventDefault();
+ const email = document.getElementById('login-email').value;
+ const namePart = email.split('@')[0].replace('.', ' ');
+ const formattedName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+ 
+ updateProfileIdentity(formattedName, email, 'MT');
+ document.getElementById('loginOverlay').classList.add('hidden');
+ showToast(`Welcome back, ${formattedName}! 👋`);
+ }
+
+ function handleGuestLogin() {
+ updateProfileIdentity('Guest Member', 'guest@flexntone.co.uk', 'GM');
+ document.getElementById('loginOverlay').classList.add('hidden');
+ showToast('Logged in as Guest (Demo Mode) ⚡');
+ }
+
+ function showLoginOverlay() {
+ document.getElementById('loginOverlay').classList.remove('hidden');
+ }
+
+ function updateProfileIdentity(name, email, initials) {
+ document.getElementById('welcome-name').textContent = name.split(' ')[0];
+ document.getElementById('nav-user-name').textContent = name;
+ document.getElementById('nav-avatar-circle').textContent = initials || 'MT';
+ document.getElementById('profile-name-input').value = name;
+ document.getElementById('profile-email-input').value = email;
+ }
+
+ // SECTION SWITCHING
+ function switchSection(sectionId, element = null) {
+ document.querySelectorAll('.portal-section').forEach(s => s.classList.remove('active'));
+ const target = document.getElementById(sectionId);
+ if (target) target.classList.add('active');
+ 
+ document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+ document.querySelectorAll('.mobile-nav-link').forEach(l => l.classList.remove('active'));
+ 
+ if (element) {
+ element.classList.add('active');
+ } else {
+ // Highlight corresponding nav-link
+ document.querySelectorAll('.nav-link').forEach(l => {
+ if (l.getAttribute('onclick') && l.getAttribute('onclick').includes(sectionId)) {
+ l.classList.add('active');
+ }
+ });
+ }
+ window.scrollTo({ top: 0, behavior: 'smooth' });
+ }
+
+ function toggleTheme() {
+ const body = document.body;
+ const currentTheme = body.getAttribute('data-theme');
+ const themeBtn = document.getElementById('theme-btn');
+ if (currentTheme === 'light') {
+ body.removeAttribute('data-theme');
+ themeBtn.textContent = '🌙';
+ showToast('Switched to Dark Mode');
+ } else {
+ body.setAttribute('data-theme', 'light');
+ themeBtn.textContent = '☀️';
+ showToast('Switched to Light Mode');
+ }
+ }
+
+ function toggleMobileMenu() {
+ document.getElementById('mobileNav').classList.toggle('open');
+ }
+
+ // CLASSES FUNCTIONS
+ function renderClasses() {
+ const container = document.getElementById('classes-grid-container');
+ if (!container) return;
+ container.innerHTML = '';
+ let filtered = classData;
+ if (activeFilter === 'booked') {
+ filtered = classData.filter(c => c.isBooked);
+ } else if (activeFilter !== 'all') {
+ filtered = classData.filter(c => c.category === activeFilter);
+ }
+ const bookedTotal = classData.filter(c => c.isBooked).length;
+ document.getElementById('booked-count').textContent = bookedTotal;
+ document.getElementById('stat-classes').textContent = bookedTotal + 6;
+ 
+ if (filtered.length === 0) {
+ container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)">No classes in this category.</div>';
+ return;
+ }
+ filtered.forEach(c => {
+ const percent = Math.round((c.bookedCount / c.capacity) * 100);
+ const isFull = c.bookedCount >= c.capacity && !c.isBooked;
+ const cardHtml = `
+ <div class="clay-card class-card">
+ <div>
+ <div class="class-header">
+ <span class="class-cat">${c.category.toUpperCase()}</span>
+ <span style="font-size:.7rem; background:var(--bg-elevated); padding:2px 6px; border-radius:100px; color:var(--text-dim);">${c.time.split('•')[0]}</span>
+ </div>
+ <h3 class="class-title">${c.title}</h3>
+ <div class="class-meta">
+ <div>🕒 ${c.time}</div>
+ <div>👤 Trainer: ${c.trainer}</div>
+ <div>📍 ${c.zone}</div>
+ </div>
+ </div>
+ <div>
+ <div class="capacity-wrap">
+ <div class="capacity-label">
+ <span>Capacity</span>
+ <span>${c.bookedCount}/${c.capacity} ${isFull ? '(FULL)' : ''}</span>
+ </div>
+ <div class="progress-bar-bg">
+ <div class="progress-bar-fill" style="width: ${percent}%;"></div>
+ </div>
+ </div>
+ <button class="btn ${c.isBooked ? 'btn-secondary' : isFull ? 'btn-secondary' : 'btn-primary'} btn-sm" 
+ style="width:100%" 
+ onclick="toggleClassBooking(${c.id})"
+ ${isFull ? 'disabled' : ''}>
+ ${c.isBooked ? 'Booked ✓ (Cancel)' : isFull ? 'Class Full' : 'Book Class'}
+ </button>
+ </div>
+ </div>
+ `;
+ container.innerHTML += cardHtml;
+ });
+ }
+
+ function filterClasses(category, btnElement) {
+ activeFilter = category;
+ document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+ if (btnElement) btnElement.classList.add('active');
+ renderClasses();
+ }
+
+ function toggleClassBooking(id) {
+ const item = classData.find(c => c.id === id);
+ if (!item) return;
+ if (item.isBooked) {
+ item.isBooked = false;
+ item.bookedCount--;
+ showToast(`Cancelled booking for ${item.title}`);
+ } else {
+ if (item.bookedCount >= item.capacity) {
+ showToast('Class is full!');
+ return;
+ }
+ item.isBooked = true;
+ item.bookedCount++;
+ showToast(`Booked ${item.title}! 🎉`);
+ }
+ renderClasses();
+ renderDashboardUpcoming();
+ }
+
+ function renderDashboardUpcoming() {
+ const container = document.getElementById('dashboard-upcoming-classes');
+ if (!container) return;
+ const booked = classData.filter(c => c.isBooked);
+ if (booked.length === 0) {
+ container.innerHTML = '<div style="padding:14px; text-align:center; color:var(--text-muted);">No upcoming booked classes.</div>';
+ return;
+ }
+ container.innerHTML = booked.map(c => `
+ <div class="upcoming-item">
+ <div>
+ <div style="font-weight:700; font-size:.9rem;">${c.title}</div>
+ <div style="font-size:.75rem; color:var(--text-muted);">${c.time} • ${c.trainer} (${c.zone})</div>
+ </div>
+ <div style="display:flex; align-items:center; gap:8px;">
+ <span class="class-time-tag">${c.time.split('•')[0]}</span>
+ <button class="btn btn-danger btn-sm" onclick="toggleClassBooking(${c.id})">Cancel</button>
+ </div>
+ </div>
+ `).join('');
+ }
+
+ // WORKOUT LOGGER
+ function addExerciseRow() {
+ const container = document.getElementById('exercise-rows-container');
+ const tr = document.createElement('tr');
+ tr.innerHTML = `
+ <td><input type="text" class="form-input" placeholder="Hammer Leg Press" required></td>
+ <td><input type="number" class="form-input" value="3" min="1" required></td>
+ <td><input type="number" class="form-input" value="12" min="1" required></td>
+ <td><input type="number" class="form-input" value="100" step="0.5" required></td>
+ <td><button type="button" class="btn btn-danger btn-sm" onclick="removeExerciseRow(this)">✕</button></td>
+ `;
+ container.appendChild(tr);
+ }
+
+ function removeExerciseRow(btn) {
+ const rows = document.querySelectorAll('#exercise-rows-container tr');
+ if (rows.length > 1) {
+ btn.closest('tr').remove();
+ } else {
+ showToast('Must have at least 1 exercise');
+ }
+ }
+
+ function handleSaveWorkout(e) {
+ e.preventDefault();
+ const title = document.getElementById('workout-title').value;
+ const dateVal = document.getElementById('workout-date').value;
+ const rows = document.querySelectorAll('#exercise-rows-container tr');
+ const exercises = [];
+ rows.forEach(r => {
+ const inputs = r.querySelectorAll('input');
+ exercises.push(`${inputs[0].value}: ${inputs[3].value}kg x ${inputs[2].value} reps (${inputs[1].value} sets)`);
+ });
+ recentWorkouts.unshift({ id: Date.now(), date: dateVal, title: title, exercises: exercises });
+ const currentLogged = parseInt(document.getElementById('stat-workouts').textContent);
+ document.getElementById('stat-workouts').textContent = currentLogged + 1;
+ renderWorkouts();
+ showToast('Workout session saved to log! 💪');
+ document.getElementById('workout-form').reset();
+ }
+
+ function renderWorkouts() {
+ const container = document.getElementById('recent-workouts-container');
+ if (!container) return;
+ container.innerHTML = recentWorkouts.map(w => `
+ <div class="clay-card recent-workout-card">
+ <div style="display:flex; justify-content:space-between; align-items:center;">
+ <h4 class="font-syne" style="font-size:1rem;">${w.title}</h4>
+ <span class="workout-date-tag">🗓️ ${w.date}</span>
+ </div>
+ <ul class="exercise-summary-list">
+ ${w.exercises.map(ex => `<li class="exercise-summary-item">⚡ ${ex}</li>`).join('')}
+ </ul>
+ </div>
+ `).join('');
+ }
+
+ // NUTRITION PLAN SYSTEM
+ function renderNutritionPlan() {
+ const plan = nutritionPlans[currentNutritionPlanIdx];
+ document.getElementById('nutrition-plan-title').textContent = plan.title;
+ document.getElementById('nutrition-target-cal').textContent = plan.targetCal;
+ document.getElementById('macro-cal-val').textContent = plan.calVal;
+ document.getElementById('macro-p-val').textContent = plan.pVal;
+ document.getElementById('macro-c-val').textContent = plan.cVal;
+ document.getElementById('macro-f-val').textContent = plan.fVal;
+ 
+ document.getElementById('bar-cal').style.width = plan.calPercent + '%';
+ document.getElementById('bar-p').style.width = plan.pPercent + '%';
+ document.getElementById('bar-c').style.width = plan.cPercent + '%';
+ 
+ const container = document.getElementById('meal-plan-container');
+ container.innerHTML = plan.meals.map(m => `
+ <div class="meal-item">
+ <div>
+ <div style="font-weight:800; font-size:.9rem;">${m.type}: ${m.name}</div>
+ <div class="meal-macros">
+ <span class="macro-pill">${m.macros}</span>
+ </div>
+ </div>
+ <button class="btn btn-secondary btn-sm" onclick="showToast('Meal logged to daily tracker!')">✓ Log Meal</button>
+ </div>
+ `).join('');
+ }
+
+ function regenerateNutritionPlan() {
+ currentNutritionPlanIdx = (currentNutritionPlanIdx + 1) % nutritionPlans.length;
+ renderNutritionPlan();
+ showToast(`Regenerated Plan: ${nutritionPlans[currentNutritionPlanIdx].title} 🥗`);
+ }
+
+ // WATER TRACKER SYSTEM
+ function renderWaterTracker() {
+ const container = document.getElementById('water-glasses-row');
+ container.innerHTML = '';
+ for (let i = 1; i <= 8; i++) {
+ const isFilled = i <= filledWaterCount;
+ const btn = document.createElement('button');
+ btn.className = `water-glass-btn ${isFilled ? 'filled' : ''}`;
+ btn.innerHTML = isFilled ? '💧' : '🥛';
+ btn.onclick = () => toggleWaterGlass(i);
+ container.appendChild(btn);
+ }
+ const liters = (filledWaterCount * 0.25).toFixed(2);
+ document.getElementById('water-status-text').textContent = `${filledWaterCount} / 8 Glasses (${liters}L / 2.00L)`;
+ document.getElementById('water-progress-fill').style.width = `${(filledWaterCount / 8) * 100}%`;
+ }
+
+ function toggleWaterGlass(index) {
+ if (filledWaterCount === index) {
+ filledWaterCount = index - 1;
+ } else {
+ filledWaterCount = index;
+ }
+ renderWaterTracker();
+ if (filledWaterCount === 8) {
+ showToast('🎉 Daily water goal achieved! 2.0L logged.');
+ } else {
+ showToast(`Logged ${filledWaterCount * 250}ml water intake 💧`);
+ }
+ }
+
+ function resetWaterTracker() {
+ filledWaterCount = 0;
+ renderWaterTracker();
+ showToast('Water tracker reset.');
+ }
+
+ // REFERRAL SYSTEM
+ function copyReferralLink() {
+ const linkInput = document.getElementById('ref-link-val');
+ linkInput.select();
+ navigator.clipboard.writeText(linkInput.value).then(() => {
+ showToast('Referral link copied to clipboard! 📋');
+ const copyBtn = document.getElementById('copy-ref-btn');
+ copyBtn.textContent = 'Copied! ✓';
+ setTimeout(() => copyBtn.textContent = 'Copy Link', 2000);
+ }).catch(() => {
+ showToast('Referral link copied: flexntone.co.uk/ref/MARK-T');
+ });
+ }
+
+ function shareReferral(platform) {
+ if (platform === 'whatsapp') {
+ showToast('Opening WhatsApp with your referral code...');
+ } else if (platform === 'instagram') {
+ showToast('Instagram referral text copied! Ready to paste into Stories 📸');
+ } else {
+ showToast('Email invitation draft prepared ✉️');
+ }
+ }
+
+ // AI COACH FUNCTIONS
+ function regenerateAiRecommendations() {
+ showToast('Re-analyzing workout history & heart rate trends... 🤖');
+ setTimeout(() => {
+ showToast('AI recommendations updated based on peak muscle recovery!');
+ }, 600);
+ }
+
+ function applyWeeklyPlan() {
+ showToast('Weekly AI Plan applied to your personal timetable! 🗓️');
+ }
+
+ // WEARABLE SYNC FUNCTIONS
+ function toggleDeviceSync(device) {
+ const badge = document.getElementById(`badge-${device}`);
+ const btn = document.getElementById(`btn-${device}`);
+ 
+ if (btn.textContent.includes('Disconnect')) {
+ badge.className = 'badge-pending';
+ badge.textContent = 'Not Connected';
+ btn.className = 'btn btn-primary btn-sm';
+ btn.textContent = 'Connect Device';
+ showToast(`Disconnected ${device.toUpperCase()} hardware.`);
+ } else {
+ badge.className = 'badge-joined';
+ badge.textContent = 'Connected ✓';
+ btn.className = 'btn btn-secondary btn-sm';
+ btn.textContent = 'Disconnect';
+ showToast(`Connected ${device.toUpperCase()} successfully! ⌚`);
+ }
+ }
+
+ function syncWearables() {
+ const btn = document.getElementById('sync-now-btn');
+ btn.textContent = '🔄 Syncing...';
+ setTimeout(() => {
+ document.getElementById('wearable-steps').textContent = '8,950';
+ document.getElementById('wearable-cals').textContent = '695';
+ document.getElementById('wearable-mins').textContent = '52';
+ document.getElementById('last-sync-time').textContent = 'Last synced: Just now';
+ btn.textContent = '🔄 Sync Now';
+ showToast('Biometric data synced from connected wearables! ⌚');
+ }, 800);
+ }
+
+ // MODAL HELPERS
+ function openTrainerModal(trainerName = 'Marcus Vance') {
+ document.getElementById('modal-trainer-title').textContent = `Book PT Session with ${trainerName}`;
+ document.getElementById('trainerModal').classList.add('open');
+ }
+ function closeTrainerModal() {
+ document.getElementById('trainerModal').classList.remove('open');
+ }
+ function selectTimeSlot(btn) {
+ const parent = btn.parentElement;
+ parent.querySelectorAll('button').forEach(b => b.className = 'btn btn-secondary btn-sm');
+ btn.className = 'btn btn-primary btn-sm';
+ }
+ function confirmPTBooking() {
+ closeTrainerModal();
+ showToast('PT Session Confirmed! Added to schedule.');
+ }
+
+ function openCancelModal() {
+ document.getElementById('cancelModal').classList.add('open');
+ }
+ function closeCancelModal() {
+ document.getElementById('cancelModal').classList.remove('open');
+ }
+ function confirmCancelMembership() {
+ closeCancelModal();
+ showToast('Cancellation request submitted.');
+ }
+
+ function handleSaveProfile(e) {
+ e.preventDefault();
+ const newName = document.getElementById('profile-name-input').value;
+ const newEmail = document.getElementById('profile-email-input').value;
+ updateProfileIdentity(newName, newEmail, newName.split(' ').map(n=>n[0]).join('').toUpperCase());
+ showToast('Profile updated successfully!');
+ }
+
+ function showToast(message) {
+ const container = document.getElementById('toastContainer');
+ const toast = document.createElement('div');
+ toast.className = 'toast';
+ toast.innerHTML = `<span>⚡</span> <span>${message}</span>`;
+ container.appendChild(toast);
+ setTimeout(() => {
+ toast.style.opacity = '0';
+ toast.style.transform = 'translateY(15px)';
+ toast.style.transition = 'all .3s';
+ setTimeout(() => toast.remove(), 300);
+ }, 2800);
+ }
+ </script>
+</body>
+</html>
