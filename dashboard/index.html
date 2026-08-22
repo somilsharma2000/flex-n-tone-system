@@ -1,0 +1,4308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLEX N TONE | Gym Owner & Admin Dashboard</title>
+  <!-- Google Fonts: Syne & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================
+       RESET & ROOT VARIABLES (Flex N Tone Aesthetic)
+       ========================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --green: #CCFF00;
+      --green-glow: rgba(204, 255, 0, 0.25);
+      --green-dark: #9fcc00;
+      --green-soft: rgba(204, 255, 0, 0.08);
+      --orange: #FF6B35;
+      --orange-glow: rgba(255, 107, 53, 0.25);
+      --orange-soft: rgba(255, 107, 53, 0.1);
+      --bg: #0B0C10;
+      --bg-card: #111317;
+      --bg-elevated: #181a1f;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(204, 255, 0, 0.25);
+      --text: #FFFFFF;
+      --text-muted: #8E95A5;
+      --text-dim: #C1C7D0;
+      
+      --clay-out: 0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.04);
+      --clay-emboss: inset 0 1px 2px rgba(255,255,255,0.06), inset 0 -1px 2px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.4);
+      --clay-icon: inset 0 2px 3px rgba(0,0,0,0.5), inset 0 -1px 1px rgba(255,255,255,0.03), 0 4px 10px rgba(0,0,0,0.3);
+      --clay-in: inset 0 2px 4px rgba(0,0,0,0.5), inset 0 -1px 1px rgba(255,255,255,0.02);
+      
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Glow Effects */
+    .bg-glow-1 {
+      position: fixed;
+      top: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--green-glow) 0%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+    .bg-glow-2 {
+      position: fixed;
+      bottom: -100px;
+      left: 100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--orange-glow) 0%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.3;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, .font-syne {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    /* Buttons & Clay Utility */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #000000;
+      box-shadow: 0 4px 20px var(--green-glow), var(--clay-emboss);
+      font-weight: 700;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(204,255,0,0.4), var(--clay-emboss);
+      background: #d8ff33;
+    }
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: var(--clay-in);
+    }
+
+    .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: var(--clay-emboss);
+    }
+    .btn-secondary:hover {
+      border-color: var(--border-glow);
+      background: #20232b;
+      color: var(--green);
+      transform: translateY(-1px);
+    }
+    .btn-secondary:active {
+      box-shadow: var(--clay-in);
+      transform: translateY(1px);
+    }
+
+    .btn-danger {
+      background: rgba(255, 75, 75, 0.12);
+      color: #ff5252;
+      border: 1px solid rgba(255, 75, 75, 0.25);
+      box-shadow: var(--clay-emboss);
+    }
+    .btn-danger:hover {
+      background: rgba(255, 75, 75, 0.25);
+      border-color: rgba(255, 75, 75, 0.5);
+    }
+
+    .btn-orange {
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 0 4px 18px var(--orange-glow), var(--clay-emboss);
+      font-weight: 700;
+    }
+    .btn-orange:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(255,107,53,0.4);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      border-radius: 8px;
+    }
+
+    /* Cards & Glassmorphism */
+    .card {
+      background: rgba(17, 19, 23, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--clay-out);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    /* Badges & Pills */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .badge-active {
+      background: rgba(204, 255, 0, 0.12);
+      color: var(--green);
+      border: 1px solid rgba(204, 255, 0, 0.3);
+    }
+    .badge-expired {
+      background: rgba(255, 75, 75, 0.12);
+      color: #ff5252;
+      border: 1px solid rgba(255, 75, 75, 0.3);
+    }
+    .badge-pending {
+      background: rgba(255, 107, 53, 0.15);
+      color: var(--orange);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+    }
+    .badge-blue {
+      background: rgba(0, 162, 255, 0.12);
+      color: #00a2ff;
+      border: 1px solid rgba(0, 162, 255, 0.3);
+    }
+
+    /* Layout Structure */
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: rgba(11, 12, 16, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      padding: 24px 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px 24px 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--green);
+      color: #000;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--green-glow), var(--clay-emboss);
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+    .brand-text h2 {
+      font-size: 1.1rem;
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .brand-text h2 span {
+      color: var(--green);
+    }
+    .brand-text p {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      list-style: none;
+      flex: 1;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.25s;
+      position: relative;
+    }
+
+    .nav-item a svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-muted);
+      transition: stroke 0.25s;
+    }
+
+    .nav-item a:hover {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+    .nav-item a:hover svg {
+      stroke: var(--green);
+    }
+
+    .nav-item.active a {
+      background: rgba(204, 255, 0, 0.08);
+      color: var(--green);
+      font-weight: 700;
+      border: 1px solid var(--border-glow);
+      box-shadow: var(--clay-emboss);
+    }
+    .nav-item.active a svg {
+      stroke: var(--green);
+      filter: drop-shadow(0 0 6px var(--green-glow));
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      background: var(--bg-elevated);
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+    }
+    .nav-item.active .nav-badge {
+      background: var(--green);
+      color: #000;
+      border: none;
+    }
+    .nav-badge.orange {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+    }
+
+    /* Sidebar Footer User Card */
+    .user-profile {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--clay-emboss);
+      margin-top: auto;
+    }
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--orange));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: 800;
+      font-size: 0.9rem;
+      box-shadow: var(--clay-icon);
+      flex-shrink: 0;
+    }
+    .user-info h4 {
+      font-size: 0.82rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .user-info p {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* Main Content Area */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 28px 36px 60px 36px;
+      min-width: 0;
+    }
+
+    /* Top Bar Header */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .top-title h1 {
+      font-size: 1.8rem;
+      color: var(--text);
+    }
+    .top-title p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Mobile Nav Toggle Header */
+    .mobile-header {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: rgba(11, 12, 16, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 99;
+    }
+    .mobile-burger {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--clay-emboss);
+    }
+
+    /* Content Sections Visibility */
+    .dashboard-section {
+      display: none;
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dashboard-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================
+       SECTION 1: OVERVIEW DASHBOARD
+       ========================================== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--clay-icon);
+    }
+    .stat-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--green);
+    }
+    .stat-card:nth-child(2) .stat-icon svg { stroke: var(--orange); }
+    .stat-card:nth-child(3) .stat-icon svg { stroke: #00a2ff; }
+    .stat-card:nth-child(4) .stat-icon svg { stroke: #a855f7; }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .stat-trend {
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+    }
+    .stat-trend.positive { color: var(--green); }
+    .stat-trend.neutral { color: var(--orange); }
+
+    /* Visual Charts & Gauge Grid */
+    .dashboard-middle-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .chart-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    /* CSS Bar Chart */
+    .bar-chart-container {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      height: 190px;
+      padding-top: 20px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .bar-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      height: 100%;
+      justify-content: flex-end;
+      position: relative;
+    }
+    .bar-wrapper {
+      width: 100%;
+      max-width: 36px;
+      background: var(--bg-elevated);
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      box-shadow: var(--clay-in);
+      height: 100%;
+    }
+    .bar-fill {
+      width: 100%;
+      background: linear-gradient(180deg, var(--green) 0%, rgba(204,255,0,0.3) 100%);
+      border-radius: 8px 8px 0 0;
+      transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 12px var(--green-glow);
+    }
+    .bar-group:nth-child(6) .bar-fill {
+      background: linear-gradient(180deg, var(--green) 0%, var(--orange) 100%);
+    }
+    .bar-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .bar-val-tooltip {
+      position: absolute;
+      top: -24px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text);
+      opacity: 0.9;
+    }
+
+    /* Live Occupancy Gauge */
+    .occupancy-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px 0;
+    }
+    .occupancy-circle-wrap {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin-bottom: 16px;
+    }
+    .occupancy-circle-svg {
+      transform: rotate(-90deg);
+      width: 140px;
+      height: 140px;
+    }
+    .occupancy-circle-bg {
+      fill: none;
+      stroke: var(--bg-elevated);
+      stroke-width: 12;
+    }
+    .occupancy-circle-fill {
+      fill: none;
+      stroke: var(--green);
+      stroke-width: 12;
+      stroke-dasharray: 377;
+      stroke-dashoffset: 207; /* 45% filled */
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px var(--green-glow));
+      transition: stroke-dashoffset 1s ease;
+    }
+    .occupancy-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .occupancy-text h3 {
+      font-size: 1.8rem;
+      color: var(--text);
+      line-height: 1;
+    }
+    .occupancy-text p {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    .zone-progress-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .zone-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+    }
+    .zone-name { color: var(--text-dim); }
+    .zone-pct { font-weight: 700; color: var(--text); }
+    .progress-bar-bg {
+      height: 6px;
+      background: var(--bg-elevated);
+      border-radius: 100px;
+      overflow: hidden;
+      box-shadow: var(--clay-in);
+      margin-top: 4px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 100px;
+    }
+
+    /* Activity Feed Section */
+    .activity-feed-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+    }
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .activity-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .activity-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--bg-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--clay-icon);
+      border: 1px solid var(--border);
+    }
+    .activity-details {
+      flex: 1;
+    }
+    .activity-title {
+      font-size: 0.85rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .activity-time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ==========================================
+       SECTION 2: MEMBERS TABLE
+       ========================================== */
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 340px;
+    }
+    .search-box input {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px 10px 38px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      box-shadow: var(--clay-in);
+      outline: none;
+      transition: border-color 0.25s;
+    }
+    .search-box input:focus {
+      border-color: var(--green);
+    }
+    .search-box svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+    }
+
+    .filter-select {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+      box-shadow: var(--clay-emboss);
+    }
+
+    .table-container {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--clay-out);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    thead th {
+      background: rgba(24, 26, 31, 0.9);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.5px;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    tbody td {
+      padding: 14px 18px;
+      color: var(--text-dim);
+      vertical-align: middle;
+    }
+    .member-name-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .member-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--green);
+      font-size: 0.8rem;
+    }
+    .member-info h5 {
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+    }
+    .member-info p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    /* ==========================================
+       SECTION 3: CLASSES MANAGER
+       ========================================== */
+    .classes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .class-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .class-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .class-card-top h3 {
+      font-size: 1.1rem;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .class-card-top p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .class-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.82rem;
+    }
+    .class-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-dim);
+    }
+    .class-meta-row svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-muted);
+    }
+    .class-capacity {
+      margin-top: 4px;
+    }
+    .capacity-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    /* ==========================================
+       SECTION 4: TRAINERS
+       ========================================== */
+    .trainers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .trainer-card {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 20px;
+    }
+    .trainer-photo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 2px solid var(--border-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 0 20px var(--green-glow), var(--clay-emboss);
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .trainer-rating-badge {
+      position: absolute;
+      bottom: -6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: #ffd700;
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      box-shadow: var(--clay-emboss);
+    }
+    .trainer-name {
+      font-size: 1.15rem;
+      color: var(--text);
+    }
+    .trainer-role {
+      font-size: 0.78rem;
+      color: var(--green);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .trainer-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .trainer-tag {
+      background: var(--bg-elevated);
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .trainer-classes-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* ==========================================
+       SECTION 5: REVENUE
+       ========================================== */
+    .revenue-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .rev-source-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .rev-source-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .rev-source-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+    .rev-source-name { color: var(--text-dim); font-weight: 500; }
+    .rev-source-val { font-weight: 700; color: var(--text); }
+
+    /* ==========================================
+       SECTION 6: LEADS (DAY PASS SYSTEM)
+       ========================================== */
+    .leads-banner {
+      background: linear-gradient(135deg, rgba(204,255,0,0.1), rgba(255,107,53,0.1));
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .leads-banner-text h4 {
+      font-size: 0.95rem;
+      color: var(--green);
+    }
+    .leads-banner-text p {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    /* ==========================================
+       SECTION 7: SETTINGS
+       ========================================== */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .settings-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+    .form-group input, .form-group select {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      box-shadow: var(--clay-in);
+      outline: none;
+    }
+    .form-group input:focus {
+      border-color: var(--green);
+    }
+
+    /* 3D Clay Toggle Switches */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .toggle-row:last-child { border-bottom: none; }
+    .toggle-label h5 {
+      font-size: 0.88rem;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+    }
+    .toggle-label p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .clay-switch {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      background: var(--bg-elevated);
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      box-shadow: var(--clay-in);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .clay-switch-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      box-shadow: var(--clay-emboss);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+    }
+    .clay-switch.active {
+      background: rgba(204, 255, 0, 0.2);
+      border-color: var(--green);
+    }
+    .clay-switch.active .clay-switch-thumb {
+      transform: translateX(24px);
+      background: var(--green);
+      box-shadow: 0 0 10px var(--green-glow), var(--clay-emboss);
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glow);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--clay-out);
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+    .modal-overlay.active .modal-card {
+      transform: translateY(0);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glow);
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5), var(--clay-emboss);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast-icon {
+      color: var(--green);
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 20px 20px 60px 20px;
+      }
+      .mobile-header {
+        display: flex;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .dashboard-middle-grid, .revenue-grid, .settings-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .classes-grid, .trainers-grid {
+        grid-template-columns: 1fr;
+      }
+      .top-title h1 {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .top-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+      }
+    }
+  
+    /* V2 FEATURES CSS */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(11, 12, 16, 0.95);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .login-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .login-card {
+      max-width: 440px;
+      width: 100%;
+      background: rgba(17, 19, 23, 0.92);
+      border: 1px solid rgba(204, 255, 0, 0.3);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 50px var(--green-glow), var(--clay-out);
+      border-radius: 24px;
+      padding: 36px 32px;
+      text-align: center;
+    }
+    .login-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .login-logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--green);
+      color: #000;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      box-shadow: 0 0 25px var(--green-glow), var(--clay-emboss);
+    }
+    .login-brand-text h2 {
+      font-size: 1.3rem;
+      font-family: 'Syne', sans-serif;
+      color: #fff;
+      line-height: 1.1;
+      text-align: left;
+    }
+    .login-brand-text h2 span { color: var(--green); }
+    .login-brand-text p {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-align: left;
+      margin-top: 3px;
+    }
+    .login-badge-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .login-subtitle {
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      margin-bottom: 24px;
+    }
+    .input-with-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-with-icon svg {
+      position: absolute;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+      pointer-events: none;
+    }
+    .input-with-icon .form-control {
+      padding-left: 44px;
+      width: 100%;
+      background: rgba(24, 26, 31, 0.8);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      border-radius: 12px;
+      box-shadow: var(--clay-in);
+      outline: none;
+    }
+    .input-with-icon .form-control:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 12px var(--green-glow), var(--clay-in);
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .login-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .btn-block { width: 100%; }
+    .btn-lg { padding: 14px 20px; font-size: 0.92rem; }
+    .login-footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .automation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .automation-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .automation-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .automation-title {
+      font-size: 1.15rem;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .automation-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+    .automation-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      background: rgba(24, 26, 31, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .auto-stat-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      display: block;
+    }
+    .auto-stat-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+      display: block;
+    }
+    .automation-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .automation-actions button { flex: 1; }
+
+    .report-card {
+      background: rgba(17, 19, 23, 0.85);
+      border: 1px solid rgba(204, 255, 0, 0.2);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), var(--clay-out);
+    }
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .report-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .report-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .report-stat-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--clay-emboss);
+    }
+    .report-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .report-stat-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .report-stat-change { font-size: 0.75rem; font-weight: 600; }
+    .report-stat-change.positive { color: var(--green); }
+    .report-stat-change.neutral { color: var(--text-dim); }
+
+    .report-highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .report-highlight-card {
+      background: rgba(24, 26, 31, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .rh-icon {
+      font-size: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--clay-icon);
+    }
+    .rh-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+    .rh-title {
+      font-size: 1.05rem;
+      color: var(--green);
+      margin: 2px 0 4px 0;
+    }
+    .rh-desc {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.3;
+    }
+    .report-dual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+    }
+    .report-sub-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+    }
+    .report-sub-title {
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .report-revenue-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .report-rev-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+    }
+    .report-rev-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-dim);
+    }
+    .rev-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .report-rev-amount {
+      font-weight: 700;
+      color: #fff;
+    }
+    .report-rev-total {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .report-bar-chart {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      height: 200px;
+      padding-top: 20px;
+      gap: 12px;
+    }
+    .rb-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      flex: 1;
+    }
+    .rb-val {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .rb-bar-wrap {
+      flex: 1;
+      width: 100%;
+      max-width: 38px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-end;
+      padding: 3px;
+    }
+    .rb-bar {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: height 0.5s ease;
+    }
+    .rb-bar.highlight {
+      background: linear-gradient(to top, var(--green-dark), var(--green));
+      box-shadow: 0 0 15px var(--green-glow);
+      border-color: var(--green);
+    }
+    .rb-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+    .referral-funnel-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 10px 0;
+    }
+    .funnel-step-card {
+      flex: 1;
+      min-width: 200px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: var(--clay-emboss);
+    }
+    .funnel-step-card.highlight {
+      border-color: var(--border-glow);
+      background: rgba(204, 255, 0, 0.05);
+      box-shadow: 0 8px 24px rgba(204, 255, 0, 0.12), var(--clay-emboss);
+    }
+    .funnel-step-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .funnel-step-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .funnel-step-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+    .funnel-step-desc { font-size: 0.75rem; color: var(--text-muted); }
+    .funnel-arrow { font-size: 1.4rem; color: var(--green); opacity: 0.8; }
+
+    .content-kit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 22px;
+    }
+    .content-card {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+    }
+    .template-thumbnail-box {
+      height: 180px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .thumb-challenge {
+      background: linear-gradient(135deg, rgba(11, 12, 16, 0.85), rgba(204, 255, 0, 0.2)), radial-gradient(circle at top right, #1f2937, #0b0c10);
+      border-bottom: 1px solid var(--border-glow);
+    }
+    .thumb-spotlight {
+      background: linear-gradient(135deg, rgba(11, 12, 16, 0.85), rgba(255, 107, 53, 0.25)), radial-gradient(circle at top right, #311308, #0b0c10);
+      border-bottom: 1px solid rgba(255, 107, 53, 0.3);
+    }
+    .thumb-equipment {
+      background: linear-gradient(135deg, rgba(11, 12, 16, 0.85), rgba(0, 162, 255, 0.25)), radial-gradient(circle at top right, #092540, #0b0c10);
+      border-bottom: 1px solid rgba(0, 162, 255, 0.3);
+    }
+    .thumb-transformation {
+      background: linear-gradient(135deg, rgba(11, 12, 16, 0.85), rgba(255, 107, 53, 0.3)), radial-gradient(circle at top right, #2a0e1c, #0b0c10);
+      border-bottom: 1px solid rgba(255, 107, 53, 0.3);
+    }
+    .thumb-schedule {
+      background: linear-gradient(135deg, rgba(11, 12, 16, 0.85), rgba(204, 255, 0, 0.2)), radial-gradient(circle at top right, #162312, #0b0c10);
+      border-bottom: 1px solid var(--border-glow);
+    }
+    .thumb-offer {
+      background: linear-gradient(135deg, rgba(11, 12, 16, 0.85), rgba(255, 107, 53, 0.35)), radial-gradient(circle at top right, #3b1700, #0b0c10);
+      border-bottom: 1px solid rgba(255, 107, 53, 0.4);
+    }
+    .template-tag {
+      align-self: flex-start;
+      background: rgba(204, 255, 0, 0.18);
+      color: var(--green);
+      border: 1px solid var(--border-glow);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 100px;
+      letter-spacing: 1px;
+    }
+    .template-tag.orange {
+      background: rgba(255, 107, 53, 0.2);
+      color: var(--orange);
+      border-color: rgba(255, 107, 53, 0.4);
+    }
+    .thumb-content h4 { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 1px; }
+    .thumb-content h3 { font-size: 1.2rem; color: #fff; line-height: 1.1; margin: 2px 0 3px 0; }
+    .thumb-content p { font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.5px; }
+    .content-card-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+    .template-title { font-size: 1.1rem; color: #fff; margin-bottom: 8px; }
+    .template-caption-preview {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      background: rgba(24, 26, 31, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 18px;
+      font-style: italic;
+      flex: 1;
+    }
+    .template-actions { display: flex; gap: 10px; }
+    .template-actions button { flex: 1; }
+
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- Mobile Top Bar Header -->
+  <div class="mobile-header">
+    <div class="brand" style="border:none; margin:0; padding:0;">
+      <div class="brand-icon">F</div>
+      <div class="brand-text">
+        <h2>FLEX N <span>TONE</span></h2>
+        <p>Admin Dashboard</p>
+      </div>
+    </div>
+    <button class="mobile-burger" id="burgerBtn" onclick="toggleSidebar()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </div>
+
+  <div class="app-container">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="sidebarNav">
+      <div class="brand">
+        <div class="brand-icon">F</div>
+        <div class="brand-text">
+          <h2>FLEX N <span>TONE</span></h2>
+          <p>Salford, Manchester</p>
+        </div>
+      </div>
+
+      <ul class="nav-menu">
+        <li class="nav-item active" data-target="overview">
+          <a href="#" onclick="switchTab('overview', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Dashboard
+          </a>
+        </li>
+        <li class="nav-item" data-target="members">
+          <a href="#" onclick="switchTab('members', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Members
+            <span class="nav-badge">247</span>
+          </a>
+        </li>
+        <li class="nav-item" data-target="classes">
+          <a href="#" onclick="switchTab('classes', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Classes
+            <span class="nav-badge">9</span>
+          </a>
+        </li>
+        <li class="nav-item" data-target="trainers">
+          <a href="#" onclick="switchTab('trainers', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Trainers
+            <span class="nav-badge">4</span>
+          </a>
+        </li>
+        <li class="nav-item" data-target="revenue">
+          <a href="#" onclick="switchTab('revenue', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Revenue
+          </a>
+        </li>
+        <li class="nav-item" data-target="reports">
+          <a href="#" onclick="switchTab('reports', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Reports
+            <span class="nav-badge orange">NEW</span>
+          </a>
+        </li>
+        <li class="nav-item" data-target="automation">
+          <a href="#" onclick="switchTab('automation', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            Automation
+            <span class="nav-badge">4</span>
+          </a>
+        </li>
+        <li class="nav-item" data-target="referrals">
+          <a href="#" onclick="switchTab('referrals', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+            Referrals
+          </a>
+        </li>
+        <li class="nav-item" data-target="leads">
+          <a href="#" onclick="switchTab('leads', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            Leads
+            <span class="nav-badge orange">12</span>
+          </a>
+        </li>
+        
+        <li class="nav-item" data-target="content-kit">
+          <a href="#" onclick="switchTab('content-kit', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Content Kit
+          </a>
+        </li>
+        <li class="nav-item" data-target="settings">
+          <a href="#" onclick="switchTab('settings', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Settings
+          </a>
+        </li>
+      </ul>
+
+      <div class="user-profile">
+        <div class="avatar">MV</div>
+        <div class="user-info">
+          <h4>Mark Vance</h4>
+          <p>Gym Owner • Salford</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- TOP BAR HEADER -->
+      <div class="top-bar">
+        <div class="top-title">
+          <h1 id="pageTitle">Dashboard Overview</h1>
+          <p id="pageSubtitle">FLEX N TONE Gym Operations • Salford Quays</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn btn-secondary btn-sm" onclick="lockDashboard()" title="Lock Session">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Lock Session
+          </button>
+          <button class="btn btn-secondary" onclick="openModal('addMemberModal')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+            + Member
+          </button>
+          <button class="btn btn-primary" onclick="openModal('addClassModal')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            + Class
+          </button>
+        </div>
+      </div>
+
+      <!-- SECTION 1: DASHBOARD OVERVIEW -->
+      <section id="overview" class="dashboard-section active">
+        
+        <!-- 4 Stat Cards -->
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Total Members</span>
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+            </div>
+            <div class="stat-value">247</div>
+            <div class="stat-trend positive">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+              +12 this month (94% retention)
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Monthly Revenue</span>
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+            </div>
+            <div class="stat-value">£9,880</div>
+            <div class="stat-trend positive">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+              +8.4% vs last month
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Active Classes</span>
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+              </div>
+            </div>
+            <div class="stat-value">9</div>
+            <div class="stat-trend neutral">
+              88% average occupancy
+            </div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Day Pass Claims</span>
+              <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+              </div>
+            </div>
+            <div class="stat-value">34</div>
+            <div class="stat-trend positive">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+              +18% QR lead conversion
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Grid: Chart + Occupancy -->
+        <div class="dashboard-middle-grid">
+          
+          <!-- Revenue Bar Chart -->
+          <div class="card">
+            <div class="chart-card-header">
+              <div>
+                <h3 class="font-syne" style="font-size: 1.1rem;">6-Month Revenue Trend</h3>
+                <p style="font-size: 0.78rem; color: var(--text-muted);">Monthly recurring subscription & pass growth</p>
+              </div>
+              <span class="badge badge-active">Target On Track</span>
+            </div>
+
+            <div class="bar-chart-container">
+              <div class="bar-group">
+                <span class="bar-val-tooltip">£8.1k</span>
+                <div class="bar-wrapper"><div class="bar-fill" style="height: 65%;"></div></div>
+                <span class="bar-label">Nov</span>
+              </div>
+              <div class="bar-group">
+                <span class="bar-val-tooltip">£8.4k</span>
+                <div class="bar-wrapper"><div class="bar-fill" style="height: 70%;"></div></div>
+                <span class="bar-label">Dec</span>
+              </div>
+              <div class="bar-group">
+                <span class="bar-val-tooltip">£8.9k</span>
+                <div class="bar-wrapper"><div class="bar-fill" style="height: 78%;"></div></div>
+                <span class="bar-label">Jan</span>
+              </div>
+              <div class="bar-group">
+                <span class="bar-val-tooltip">£9.1k</span>
+                <div class="bar-wrapper"><div class="bar-fill" style="height: 82%;"></div></div>
+                <span class="bar-label">Feb</span>
+              </div>
+              <div class="bar-group">
+                <span class="bar-val-tooltip">£9.4k</span>
+                <div class="bar-wrapper"><div class="bar-fill" style="height: 88%;"></div></div>
+                <span class="bar-label">Mar</span>
+              </div>
+              <div class="bar-group">
+                <span class="bar-val-tooltip" style="color: var(--green);">£9.88k</span>
+                <div class="bar-wrapper"><div class="bar-fill" style="height: 98%;"></div></div>
+                <span class="bar-label" style="color: var(--green);">Apr</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Occupancy Gauge -->
+          <div class="card">
+            <div class="chart-card-header">
+              <h3 class="font-syne" style="font-size: 1.1rem;">Gym Occupancy</h3>
+              <span class="badge badge-active">Live Meter</span>
+            </div>
+
+            <div class="occupancy-container">
+              <div class="occupancy-circle-wrap">
+                <svg class="occupancy-circle-svg">
+                  <circle class="occupancy-circle-bg" cx="70" cy="70" r="60"/>
+                  <circle class="occupancy-circle-fill" cx="70" cy="70" r="60"/>
+                </svg>
+                <div class="occupancy-text">
+                  <h3>45%</h3>
+                  <p>45 / 100 Cap</p>
+                </div>
+              </div>
+
+              <div class="zone-progress-list">
+                <div>
+                  <div class="zone-item">
+                    <span class="zone-name">Zone 1 • HYROX Arena</span>
+                    <span class="zone-pct">65%</span>
+                  </div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 65%;"></div></div>
+                </div>
+                <div>
+                  <div class="zone-item">
+                    <span class="zone-name">Zone 2 • Iron Vault</span>
+                    <span class="zone-pct">80%</span>
+                  </div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 80%; background: var(--orange);"></div></div>
+                </div>
+                <div>
+                  <div class="zone-item">
+                    <span class="zone-name">Zone 3 • Engine Room</span>
+                    <span class="zone-pct">30%</span>
+                  </div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 30%;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Recent Activity Feed -->
+        <div class="card activity-feed-card">
+          <h3 class="font-syne">Recent Gym Activity</h3>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon" style="color: var(--green);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">New Member Signed Up: <strong>Sarah Jenkins</strong> (Pro HYROX Plan)</div>
+                <div class="activity-time">12 minutes ago • Online Checkout</div>
+              </div>
+              <span class="badge badge-active">£59.00/mo</span>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon" style="color: var(--orange);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">Day Pass QR Claimed: <strong>+44 7700 900123</strong></div>
+                <div class="activity-time">42 minutes ago • Salford Quays Poster Scan</div>
+              </div>
+              <span class="badge badge-pending">QR Lead</span>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon" style="color: #00a2ff;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">Class Capacity Full: <strong>HYROX Surge (Mon 06:30)</strong></div>
+                <div class="activity-time">1 hour ago • 20/20 slots booked</div>
+              </div>
+              <span class="badge badge-blue">Full</span>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon" style="color: var(--green);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">Trainer Update: <strong>Marcus Vance</strong> added 3 PT slots for tomorrow</div>
+                <div class="activity-time">3 hours ago • PT Calendar</div>
+              </div>
+              <span class="badge badge-active">Updated</span>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon" style="color: #a855f7;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">Recurring Payment Processed: <strong>£49.99</strong> (Liam Vance)</div>
+                <div class="activity-time">5 hours ago • Direct Debit Auto-renew</div>
+              </div>
+              <span class="badge badge-active">Paid</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- SECTION 2: MEMBERS TABLE -->
+      <section id="members" class="dashboard-section">
+        
+        <div class="card">
+          <div class="table-toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="memberSearch" placeholder="Search members by name..." onkeyup="filterMembers()">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <select class="filter-select" id="memberStatusFilter" onchange="filterMembers()">
+                <option value="all">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="expired">Expired</option>
+                <option value="pending">Pending</option>
+              </select>
+
+              <button class="btn btn-primary" onclick="openModal('addMemberModal')">
+                + Add New Member
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Membership Plan</th>
+                  <th>Join Date</th>
+                  <th>Status</th>
+                  <th>Monthly Fee</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="membersTableBody">
+                <tr data-status="active" data-name="sarah jenkins">
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">SJ</div>
+                      <div class="member-info">
+                        <h5>Sarah Jenkins</h5>
+                        <p>sarah.j@gmail.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Pro HYROX Unlimited</td>
+                  <td>03 Aug 2026</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td>£59.00</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing Sarah Jenkins details')">View</button>
+                      <button class="btn btn-danger btn-sm" onclick="toggleMemberStatus(this)">Deactivate</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="active" data-name="liam vance">
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">LV</div>
+                      <div class="member-info">
+                        <h5>Liam Vance</h5>
+                        <p>liam.vance@outlook.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Standard Gym</td>
+                  <td>15 Jan 2026</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td>£49.99</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing Liam Vance details')">View</button>
+                      <button class="btn btn-danger btn-sm" onclick="toggleMemberStatus(this)">Deactivate</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="active" data-name="chloe roberts">
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">CR</div>
+                      <div class="member-info">
+                        <h5>Chloe Roberts</h5>
+                        <p>chloe.r@salford.ac.uk</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Off-Peak Pass</td>
+                  <td>22 Mar 2026</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td>£34.99</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing Chloe Roberts details')">View</button>
+                      <button class="btn btn-danger btn-sm" onclick="toggleMemberStatus(this)">Deactivate</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="active" data-name="david hargreaves">
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">DH</div>
+                      <div class="member-info">
+                        <h5>David Hargreaves</h5>
+                        <p>d.hargreaves@media.co.uk</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>VIP Elite All-Access</td>
+                  <td>10 Nov 2025</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td>£79.00</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing David Hargreaves details')">View</button>
+                      <button class="btn btn-danger btn-sm" onclick="toggleMemberStatus(this)">Deactivate</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="expired" data-name="emma watson">
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar" style="color: #ff5252;">EW</div>
+                      <div class="member-info">
+                        <h5>Emma Watson</h5>
+                        <p>e.watson92@yahoo.co.uk</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Standard Gym</td>
+                  <td>01 Jul 2026</td>
+                  <td><span class="badge badge-expired">Expired</span></td>
+                  <td>£49.99</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing Emma Watson details')">View</button>
+                      <button class="btn btn-primary btn-sm" onclick="toggleMemberStatus(this)">Reactivate</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="active" data-name="marcus thorne">
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">MT</div>
+                      <div class="member-info">
+                        <h5>Marcus Thorne</h5>
+                        <p>m.thorne@btinternet.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Pro HYROX Unlimited</td>
+                  <td>18 May 2026</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td>£59.00</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing Marcus Thorne details')">View</button>
+                      <button class="btn btn-danger btn-sm" onclick="toggleMemberStatus(this)">Deactivate</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="active" data-name="aisha khan">
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">AK</div>
+                      <div class="member-info">
+                        <h5>Aisha Khan</h5>
+                        <p>aisha.khan@gmail.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Day Pass Regular</td>
+                  <td>02 Aug 2026</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td>£12.00</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing Aisha Khan details')">View</button>
+                      <button class="btn btn-danger btn-sm" onclick="toggleMemberStatus(this)">Deactivate</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr data-status="pending" data-name="tom gallagher">
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar" style="color: var(--orange);">TG</div>
+                      <div class="member-info">
+                        <h5>Tom Gallagher</h5>
+                        <p>tom.g@salfordquays.org</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Standard Gym</td>
+                  <td>12 Feb 2026</td>
+                  <td><span class="badge badge-pending">Pending</span></td>
+                  <td>£49.99</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing Tom Gallagher details')">View</button>
+                      <button class="btn btn-primary btn-sm" onclick="toggleMemberStatus(this)">Approve</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- SECTION 3: CLASSES MANAGER -->
+      <section id="classes" class="dashboard-section">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h3 class="font-syne" style="font-size: 1.2rem;">Weekly Class Schedule (9 Active)</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Manage timetable, instructor assignments, and live capacities</p>
+          </div>
+          <button class="btn btn-primary" onclick="openModal('addClassModal')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add New Class
+          </button>
+        </div>
+
+        <div class="classes-grid">
+
+          <!-- Class 1 -->
+          <div class="card class-card">
+            <div class="class-card-top">
+              <div>
+                <span class="badge badge-pending" style="margin-bottom: 8px;">Monday • 06:30</span>
+                <h3>HYROX Surge</h3>
+                <p>Zone 1 • HYROX Arena</p>
+              </div>
+              <span class="badge badge-expired" id="class-status-1">FULL</span>
+            </div>
+
+            <div class="class-meta">
+              <div class="class-meta-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Instructor: Marcus Vance
+              </div>
+              
+              <div class="class-capacity">
+                <div class="capacity-header">
+                  <span>Capacity</span>
+                  <span id="class-cap-text-1">20 / 20 Booked</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="class-cap-bar-1" style="width: 100%; background: #ff5252;"></div></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="toggleClassStatus(1)">Toggle Full/Reopen</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('Class deleted')">Delete</button>
+            </div>
+          </div>
+
+          <!-- Class 2 -->
+          <div class="card class-card">
+            <div class="class-card-top">
+              <div>
+                <span class="badge badge-active" style="margin-bottom: 8px;">Monday • 18:00</span>
+                <h3>Heavy Metal Powerlifting</h3>
+                <p>Zone 2 • Iron Vault</p>
+              </div>
+              <span class="badge badge-active" id="class-status-2">ACTIVE</span>
+            </div>
+
+            <div class="class-meta">
+              <div class="class-meta-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Instructor: Dave "Grit" Taylor
+              </div>
+              
+              <div class="class-capacity">
+                <div class="capacity-header">
+                  <span>Capacity</span>
+                  <span id="class-cap-text-2">10 / 12 Booked</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="class-cap-bar-2" style="width: 83%;"></div></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="toggleClassStatus(2)">Toggle Full/Reopen</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('Class deleted')">Delete</button>
+            </div>
+          </div>
+
+          <!-- Class 3 -->
+          <div class="card class-card">
+            <div class="class-card-top">
+              <div>
+                <span class="badge badge-active" style="margin-bottom: 8px;">Tuesday • 07:00</span>
+                <h3>Engine Room Conditioning</h3>
+                <p>Zone 3 • Engine Room</p>
+              </div>
+              <span class="badge badge-active" id="class-status-3">ACTIVE</span>
+            </div>
+
+            <div class="class-meta">
+              <div class="class-meta-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Instructor: Marcus Vance
+              </div>
+              
+              <div class="class-capacity">
+                <div class="capacity-header">
+                  <span>Capacity</span>
+                  <span id="class-cap-text-3">12 / 15 Booked</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="class-cap-bar-3" style="width: 80%;"></div></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="toggleClassStatus(3)">Toggle Full/Reopen</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('Class deleted')">Delete</button>
+            </div>
+          </div>
+
+          <!-- Class 4 -->
+          <div class="card class-card">
+            <div class="class-card-top">
+              <div>
+                <span class="badge badge-pending" style="margin-bottom: 8px;">Tuesday • 17:30</span>
+                <h3>Salford Strength & Conditioning</h3>
+                <p>Zone 1 • HYROX Arena</p>
+              </div>
+              <span class="badge badge-expired" id="class-status-4">FULL</span>
+            </div>
+
+            <div class="class-meta">
+              <div class="class-meta-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Instructor: Elena Rostova
+              </div>
+              
+              <div class="class-capacity">
+                <div class="capacity-header">
+                  <span>Capacity</span>
+                  <span id="class-cap-text-4">18 / 18 Booked</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="class-cap-bar-4" style="width: 100%; background: #ff5252;"></div></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="toggleClassStatus(4)">Toggle Full/Reopen</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('Class deleted')">Delete</button>
+            </div>
+          </div>
+
+          <!-- Class 5 -->
+          <div class="card class-card">
+            <div class="class-card-top">
+              <div>
+                <span class="badge badge-active" style="margin-bottom: 8px;">Wednesday • 12:00</span>
+                <h3>Mobility & Infrared Therapy</h3>
+                <p>Zone 4 • Recovery Studio</p>
+              </div>
+              <span class="badge badge-active" id="class-status-5">ACTIVE</span>
+            </div>
+
+            <div class="class-meta">
+              <div class="class-meta-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Instructor: Chloe Bennett
+              </div>
+              
+              <div class="class-capacity">
+                <div class="capacity-header">
+                  <span>Capacity</span>
+                  <span id="class-cap-text-5">5 / 8 Booked</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="class-cap-bar-5" style="width: 62%;"></div></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="toggleClassStatus(5)">Toggle Full/Reopen</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('Class deleted')">Delete</button>
+            </div>
+          </div>
+
+          <!-- Class 6 -->
+          <div class="card class-card">
+            <div class="class-card-top">
+              <div>
+                <span class="badge badge-active" style="margin-bottom: 8px;">Thursday • 06:30</span>
+                <h3>Endurance Sled & Erg</h3>
+                <p>Zone 1 • HYROX Arena</p>
+              </div>
+              <span class="badge badge-active" id="class-status-6">ACTIVE</span>
+            </div>
+
+            <div class="class-meta">
+              <div class="class-meta-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Instructor: Marcus Vance
+              </div>
+              
+              <div class="class-capacity">
+                <div class="capacity-header">
+                  <span>Capacity</span>
+                  <span id="class-cap-text-6">16 / 20 Booked</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="class-cap-bar-6" style="width: 80%;"></div></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="toggleClassStatus(6)">Toggle Full/Reopen</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('Class deleted')">Delete</button>
+            </div>
+          </div>
+
+          <!-- Class 7 -->
+          <div class="card class-card">
+            <div class="class-card-top">
+              <div>
+                <span class="badge badge-active" style="margin-bottom: 8px;">Thursday • 18:30</span>
+                <h3>Barbell Club Technique</h3>
+                <p>Zone 2 • Iron Vault</p>
+              </div>
+              <span class="badge badge-active" id="class-status-7">ACTIVE</span>
+            </div>
+
+            <div class="class-meta">
+              <div class="class-meta-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Instructor: Dave "Grit" Taylor
+              </div>
+              
+              <div class="class-capacity">
+                <div class="capacity-header">
+                  <span>Capacity</span>
+                  <span id="class-cap-text-7">9 / 10 Booked</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="class-cap-bar-7" style="width: 90%;"></div></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="toggleClassStatus(7)">Toggle Full/Reopen</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('Class deleted')">Delete</button>
+            </div>
+          </div>
+
+          <!-- Class 8 -->
+          <div class="card class-card">
+            <div class="class-card-top">
+              <div>
+                <span class="badge badge-pending" style="margin-bottom: 8px;">Saturday • 09:00</span>
+                <h3>HYROX Saturday Blitz</h3>
+                <p>Zone 1 • HYROX Arena</p>
+              </div>
+              <span class="badge badge-expired" id="class-status-8">FULL</span>
+            </div>
+
+            <div class="class-meta">
+              <div class="class-meta-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Instructor: Elena Rostova
+              </div>
+              
+              <div class="class-capacity">
+                <div class="capacity-header">
+                  <span>Capacity</span>
+                  <span id="class-cap-text-8">25 / 25 Booked</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="class-cap-bar-8" style="width: 100%; background: #ff5252;"></div></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="toggleClassStatus(8)">Toggle Full/Reopen</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('Class deleted')">Delete</button>
+            </div>
+          </div>
+
+          <!-- Class 9 -->
+          <div class="card class-card">
+            <div class="class-card-top">
+              <div>
+                <span class="badge badge-active" style="margin-bottom: 8px;">Sunday • 10:00</span>
+                <h3>Sunday Recovery & Compression</h3>
+                <p>Zone 4 • Recovery Studio</p>
+              </div>
+              <span class="badge badge-active" id="class-status-9">ACTIVE</span>
+            </div>
+
+            <div class="class-meta">
+              <div class="class-meta-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Instructor: Chloe Bennett
+              </div>
+              
+              <div class="class-capacity">
+                <div class="capacity-header">
+                  <span>Capacity</span>
+                  <span id="class-cap-text-9">7 / 10 Booked</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="class-cap-bar-9" style="width: 70%;"></div></div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="toggleClassStatus(9)">Toggle Full/Reopen</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('Class deleted')">Delete</button>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- SECTION 4: TRAINERS -->
+      <section id="trainers" class="dashboard-section">
+        
+        <div class="trainers-grid">
+
+          <!-- Trainer 1 -->
+          <div class="card trainer-card">
+            <div class="trainer-photo">
+              🏋️‍♂️
+              <div class="trainer-rating-badge">★ 4.9</div>
+            </div>
+            <h3 class="trainer-name font-syne">Marcus Vance</h3>
+            <p class="trainer-role">Head HYROX & Conditioning Coach</p>
+
+            <div class="trainer-tags">
+              <span class="trainer-tag">HYROX World Prep</span>
+              <span class="trainer-tag">Sled & Erg</span>
+              <span class="trainer-tag">Endurance</span>
+            </div>
+
+            <p class="trainer-classes-count">Teaches 4 weekly classes • 18 active PT clients</p>
+            <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="showToast('Editing Marcus Vance profile')">Edit Coach Profile</button>
+          </div>
+
+          <!-- Trainer 2 -->
+          <div class="card trainer-card">
+            <div class="trainer-photo">
+              💪
+              <div class="trainer-rating-badge">★ 5.0</div>
+            </div>
+            <h3 class="trainer-name font-syne">Dave "Grit" Taylor</h3>
+            <p class="trainer-role">Lead Powerlifting & Barbell Master</p>
+
+            <div class="trainer-tags">
+              <span class="trainer-tag">Raw Powerlifting</span>
+              <span class="trainer-tag">Deadlift Prep</span>
+              <span class="trainer-tag">Hypertrophy</span>
+            </div>
+
+            <p class="trainer-classes-count">Teaches 2 weekly classes • 14 active PT clients</p>
+            <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="showToast('Editing Dave Taylor profile')">Edit Coach Profile</button>
+          </div>
+
+          <!-- Trainer 3 -->
+          <div class="card trainer-card">
+            <div class="trainer-photo">
+              ⚡
+              <div class="trainer-rating-badge">★ 4.8</div>
+            </div>
+            <h3 class="trainer-name font-syne">Elena Rostova</h3>
+            <p class="trainer-role">Functional Fitness & HYROX Specialist</p>
+
+            <div class="trainer-tags">
+              <span class="trainer-tag">VO2 Max</span>
+              <span class="trainer-tag">Kettlebell Flow</span>
+              <span class="trainer-tag">Pacing</span>
+            </div>
+
+            <p class="trainer-classes-count">Teaches 2 weekly classes • 12 active PT clients</p>
+            <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="showToast('Editing Elena Rostova profile')">Edit Coach Profile</button>
+          </div>
+
+          <!-- Trainer 4 -->
+          <div class="card trainer-card">
+            <div class="trainer-photo">
+              🧘‍♀️
+              <div class="trainer-rating-badge">★ 4.9</div>
+            </div>
+            <h3 class="trainer-name font-syne">Chloe Bennett</h3>
+            <p class="trainer-role">Recovery & Movement Specialist</p>
+
+            <div class="trainer-tags">
+              <span class="trainer-tag">Infrared Therapy</span>
+              <span class="trainer-tag">Mobility</span>
+              <span class="trainer-tag">Rehab</span>
+            </div>
+
+            <p class="trainer-classes-count">Teaches 2 weekly classes • 8 active PT clients</p>
+            <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="showToast('Editing Chloe Bennett profile')">Edit Coach Profile</button>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- SECTION 5: REVENUE -->
+      <section id="revenue" class="dashboard-section">
+        
+        <div class="revenue-grid">
+
+          <!-- Breakdown Card -->
+          <div class="card">
+            <h3 class="font-syne" style="margin-bottom: 8px;">Monthly Breakdown</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 24px;">Current month gross revenue: <strong style="color: var(--green); font-size: 1.1rem;">£9,880</strong></p>
+
+            <div class="rev-source-list">
+              <div class="rev-source-item">
+                <div class="rev-source-info">
+                  <span class="rev-source-name">Membership Subscriptions</span>
+                  <span class="rev-source-val">£8,200 (83.0%)</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 83%;"></div></div>
+              </div>
+
+              <div class="rev-source-item">
+                <div class="rev-source-info">
+                  <span class="rev-source-name">Personal Training (1-on-1)</span>
+                  <span class="rev-source-val">£980 (9.9%)</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 10%; background: var(--orange);"></div></div>
+              </div>
+
+              <div class="rev-source-item">
+                <div class="rev-source-info">
+                  <span class="rev-source-name">Infrared Recovery & Therapy</span>
+                  <span class="rev-source-val">£462 (4.7%)</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 5%; background: #a855f7;"></div></div>
+              </div>
+
+              <div class="rev-source-item">
+                <div class="rev-source-info">
+                  <span class="rev-source-name">Day Passes (QR & Walk-ins)</span>
+                  <span class="rev-source-val">£238 (2.4%)</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 3%; background: #00a2ff;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forecast & Projection Card -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h3 class="font-syne" style="margin-bottom: 8px;">Revenue Forecast</h3>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Projected next month run-rate based on active signups</p>
+
+              <div style="background: var(--bg-elevated); border: 1px solid var(--border-glow); border-radius: 16px; padding: 20px; box-shadow: var(--clay-emboss); text-align: center; margin-bottom: 20px;">
+                <p style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Projected Revenue Next Month</p>
+                <h2 class="font-syne" style="font-size: 2.4rem; color: var(--green); margin: 6px 0;">£10,450</h2>
+                <span class="badge badge-active">+5.8% Growth Pacing</span>
+              </div>
+            </div>
+
+            <div style="font-size: 0.82rem; color: var(--text-dim); line-height: 1.6;">
+              <p>💡 <strong>Owner Insight:</strong> Converting 4 more Day Pass leads this week will hit the £10,000 recurring revenue milestone ahead of schedule.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- SECTION 6: LEADS (DAY PASS SYSTEM) -->
+      <section id="leads" class="dashboard-section">
+        
+        <div class="leads-banner">
+          <div class="leads-banner-text">
+            <h4 class="font-syne">🔗 Salford Public Site QR Integration</h4>
+            <p>Live claims generated via public site QR pass module & Salford Quays promo codes.</p>
+          </div>
+          <span class="badge badge-active">Auto-Syncing</span>
+        </div>
+
+        <div class="card">
+          <div class="table-toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="leadSearch" placeholder="Search leads by phone number..." onkeyup="filterLeads()">
+            </div>
+
+            <select class="filter-select" id="leadStatusFilter" onchange="filterLeads()">
+              <option value="all">All Lead Statuses</option>
+              <option value="claimed">Claimed</option>
+              <option value="visited">Visited</option>
+              <option value="converted">Converted</option>
+            </select>
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Phone Number</th>
+                  <th>Date Claimed</th>
+                  <th>Status</th>
+                  <th>Notes / Source</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="leadsTableBody">
+                <tr data-status="visited" data-phone="+44 7700 900123">
+                  <td><strong>+44 7700 900123</strong></td>
+                  <td>03 Aug 2026, 17:04</td>
+                  <td><span class="badge badge-blue">Visited</span></td>
+                  <td>Interested in HYROX Surge morning class. Scanned QR at Salford Quays event.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Sending SMS follow-up...')">Send SMS</button></td>
+                </tr>
+
+                <tr data-status="claimed" data-phone="+44 7700 900456">
+                  <td><strong>+44 7700 900456</strong></td>
+                  <td>03 Aug 2026, 15:20</td>
+                  <td><span class="badge badge-pending">Claimed</span></td>
+                  <td>Downloaded free day pass via Instagram QR link. Pass expires in 48h.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Sending SMS follow-up...')">Send SMS</button></td>
+                </tr>
+
+                <tr data-status="converted" data-phone="+44 7700 900789">
+                  <td><strong>+44 7700 900789</strong></td>
+                  <td>03 Aug 2026, 11:12</td>
+                  <td><span class="badge badge-active">Converted</span></td>
+                  <td>Converted to Pro HYROX Monthly (£59/mo) after workout!</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Lead converted account active')">View Member</button></td>
+                </tr>
+
+                <tr data-status="visited" data-phone="+44 7700 900321">
+                  <td><strong>+44 7700 900321</strong></td>
+                  <td>02 Aug 2026, 19:45</td>
+                  <td><span class="badge badge-blue">Visited</span></td>
+                  <td>Tried recovery suite and heavy dumbbells. Likes late evening hours.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Sending SMS follow-up...')">Send SMS</button></td>
+                </tr>
+
+                <tr data-status="claimed" data-phone="+44 7700 900654">
+                  <td><strong>+44 7700 900654</strong></td>
+                  <td>02 Aug 2026, 14:10</td>
+                  <td><span class="badge badge-pending">Claimed</span></td>
+                  <td>Pass generated from website footer popup. Follow-up SMS pending.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Sending SMS follow-up...')">Send SMS</button></td>
+                </tr>
+
+                <tr data-status="converted" data-phone="+44 7700 900987">
+                  <td><strong>+44 7700 900987</strong></td>
+                  <td>01 Aug 2026, 18:30</td>
+                  <td><span class="badge badge-active">Converted</span></td>
+                  <td>Joined Standard Gym plan (£49.99/mo). Referred by Liam Vance.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Lead converted account active')">View Member</button></td>
+                </tr>
+
+                <tr data-status="visited" data-phone="+44 7700 900111">
+                  <td><strong>+44 7700 900111</strong></td>
+                  <td>01 Aug 2026, 10:05</td>
+                  <td><span class="badge badge-blue">Visited</span></td>
+                  <td>Asked about 1-on-1 PT coaching with Dave Taylor. Follow up tomorrow.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Sending SMS follow-up...')">Send SMS</button></td>
+                </tr>
+
+                <tr data-status="claimed" data-phone="+44 7700 900222">
+                  <td><strong>+44 7700 900222</strong></td>
+                  <td>31 Jul 2026, 16:50</td>
+                  <td><span class="badge badge-pending">Claimed</span></td>
+                  <td>QR claimed near MediaCity UK gym flyer banner.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Sending SMS follow-up...')">Send SMS</button></td>
+                </tr>
+
+                <tr data-status="converted" data-phone="+44 7700 900333">
+                  <td><strong>+44 7700 900333</strong></td>
+                  <td>31 Jul 2026, 12:15</td>
+                  <td><span class="badge badge-active">Converted</span></td>
+                  <td>Converted to Off-Peak membership (£34.99/mo).</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Lead converted account active')">View Member</button></td>
+                </tr>
+
+                <tr data-status="visited" data-phone="+44 7700 900444">
+                  <td><strong>+44 7700 900444</strong></td>
+                  <td>30 Jul 2026, 20:00</td>
+                  <td><span class="badge badge-blue">Visited</span></td>
+                  <td>Attended Thursday evening Barbell session on pass.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Sending SMS follow-up...')">Send SMS</button></td>
+                </tr>
+
+                <tr data-status="claimed" data-phone="+44 7700 900555">
+                  <td><strong>+44 7700 900555</strong></td>
+                  <td>30 Jul 2026, 09:30</td>
+                  <td><span class="badge badge-pending">Claimed</span></td>
+                  <td>Pass valid until Aug 7. Reminded via SMS.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Sending SMS follow-up...')">Send SMS</button></td>
+                </tr>
+
+                <tr data-status="converted" data-phone="+44 7700 900666">
+                  <td><strong>+44 7700 900666</strong></td>
+                  <td>29 Jul 2026, 17:15</td>
+                  <td><span class="badge badge-active">Converted</span></td>
+                  <td>Upgraded from day pass to Pro HYROX plan.</td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="showToast('Lead converted account active')">View Member</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- SECTION 7: SETTINGS -->
+      <section id="settings" class="dashboard-section">
+        
+        <div class="settings-grid">
+
+          <!-- Gym Hours & Pricing Editor -->
+          <div class="card">
+            <h3 class="font-syne" style="margin-bottom: 16px;">Gym Hours & Operating Times</h3>
+            <div class="settings-group" style="margin-bottom: 28px;">
+              <div class="form-group">
+                <label>Monday - Friday Schedule</label>
+                <input type="text" value="06:00 - 22:00">
+              </div>
+              <div class="form-group">
+                <label>Saturday - Sunday Schedule</label>
+                <input type="text" value="08:00 - 20:00">
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="showToast('Gym hours updated successfully!')">Save Hours</button>
+            </div>
+
+            <h3 class="font-syne" style="margin-bottom: 16px;">Pricing Editor</h3>
+            <div class="settings-group">
+              <div class="form-group">
+                <label>Standard Monthly Membership (£)</label>
+                <input type="text" value="49.99">
+              </div>
+              <div class="form-group">
+                <label>Pro HYROX Unlimited (£)</label>
+                <input type="text" value="59.00">
+              </div>
+              <div class="form-group">
+                <label>Off-Peak Monthly (£)</label>
+                <input type="text" value="34.99">
+              </div>
+              <div class="form-group">
+                <label>Single Day Pass (£)</label>
+                <input type="text" value="12.00">
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="showToast('Pricing rates updated!')">Save Rates</button>
+            </div>
+          </div>
+
+          <!-- Feature Toggles & Contact Info -->
+          <div class="card">
+            <h3 class="font-syne" style="margin-bottom: 16px;">Public Site Feature Switches</h3>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 20px;">Toggle modules on/off instantly on the public website</p>
+
+            <div style="margin-bottom: 24px;">
+              <div class="toggle-row">
+                <div class="toggle-label">
+                  <h5>Calorie & Macro Calculator</h5>
+                  <p>Interactive tool for website visitors</p>
+                </div>
+                <div class="clay-switch active" onclick="toggleClaySwitch(this, 'Calculator Module')">
+                  <div class="clay-switch-thumb"></div>
+                </div>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-label">
+                  <h5>Public Timetable & Booking</h5>
+                  <p>Show live class schedules online</p>
+                </div>
+                <div class="clay-switch active" onclick="toggleClaySwitch(this, 'Timetable Module')">
+                  <div class="clay-switch-thumb"></div>
+                </div>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-label">
+                  <h5>3D Zone Tour Modal</h5>
+                  <p>Interactive gym floor explorer</p>
+                </div>
+                <div class="clay-switch active" onclick="toggleClaySwitch(this, 'Zone Tour Module')">
+                  <div class="clay-switch-thumb"></div>
+                </div>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-label">
+                  <h5>Day Pass QR Claim System</h5>
+                  <p>Lead generation popups & barcodes</p>
+                </div>
+                <div class="clay-switch active" onclick="toggleClaySwitch(this, 'Day Pass System')">
+                  <div class="clay-switch-thumb"></div>
+                </div>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-label">
+                  <h5>Trainer PT Booking Widget</h5>
+                  <p>Direct 1-on-1 coach booking</p>
+                </div>
+                <div class="clay-switch active" onclick="toggleClaySwitch(this, 'Trainer Booking Widget')">
+                  <div class="clay-switch-thumb"></div>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="font-syne" style="margin-bottom: 16px;">Gym Contact & Location</h3>
+            <div class="settings-group">
+              <div class="form-group">
+                <label>Address</label>
+                <input type="text" value="Unit 4, Salford Quays Trading Estate, Salford, M50 3XW">
+              </div>
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" value="0161 892 4500">
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="showToast('Contact info saved!')">Save Contact Details</button>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    
+      <!-- AUTOMATION PANEL SECTION -->
+      <section id="automation" class="dashboard-section">
+        <div class="card automation-hero-card" style="margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h2 style="font-size: 1.3rem; margin-bottom: 4px;">Automated Member Sequences</h2>
+              <p style="color: var(--text-dim); font-size: 0.88rem;">Triggered email & SMS lifecycle campaigns designed to retain and convert gym members.</p>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <span class="badge badge-active" style="padding: 6px 14px; font-size: 0.8rem;">4 Active Automations</span>
+              <button class="btn btn-primary btn-sm" onclick="showToast('Creating new custom sequence...')">+ Create Automation</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="automation-grid">
+          <!-- Sequence 1: Welcome Series -->
+          <div class="card automation-card">
+            <div class="automation-card-top">
+              <div class="automation-channel-badge badge badge-blue">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Email Sequence
+              </div>
+              <div class="clay-switch active" onclick="toggleClaySwitch(this, 'Welcome Series')">
+                <div class="clay-switch-thumb"></div>
+              </div>
+            </div>
+
+            <h3 class="automation-title">Welcome Series</h3>
+            <p class="automation-desc">3 emails sent over 7 days to new members introducing facilities, class schedules, and personal training options.</p>
+
+            <div class="automation-stats-row">
+              <div class="auto-stat-item">
+                <span class="auto-stat-val">247</span>
+                <span class="auto-stat-label">Total Sent</span>
+              </div>
+              <div class="auto-stat-item">
+                <span class="auto-stat-val" style="color: var(--green);">89%</span>
+                <span class="auto-stat-label">Open Rate</span>
+              </div>
+              <div class="auto-stat-item">
+                <span class="auto-stat-val" style="color: var(--orange);">64%</span>
+                <span class="auto-stat-label">Class Booked</span>
+              </div>
+            </div>
+
+            <div class="automation-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openSequenceModal('Welcome Series')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Edit Sequence
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="openAnalyticsModal('Welcome Series')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                View Analytics
+              </button>
+            </div>
+          </div>
+
+          <!-- Sequence 2: Win-Back Campaign -->
+          <div class="card automation-card">
+            <div class="automation-card-top">
+              <div class="automation-channel-badge badge badge-pending">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                SMS Sequence
+              </div>
+              <div class="clay-switch active" onclick="toggleClaySwitch(this, 'Win-Back Campaign')">
+                <div class="clay-switch-thumb"></div>
+              </div>
+            </div>
+
+            <h3 class="automation-title">Win-Back Campaign</h3>
+            <p class="automation-desc">3 automated SMS messages sent to expired members offering 20% off renewal and a complimentary PT session.</p>
+
+            <div class="automation-stats-row">
+              <div class="auto-stat-item">
+                <span class="auto-stat-val">34</span>
+                <span class="auto-stat-label">SMS Sent</span>
+              </div>
+              <div class="auto-stat-item">
+                <span class="auto-stat-val" style="color: var(--green);">12</span>
+                <span class="auto-stat-label">Re-Joined</span>
+              </div>
+              <div class="auto-stat-item">
+                <span class="auto-stat-val" style="color: var(--green);">35.3%</span>
+                <span class="auto-stat-label">Win Rate</span>
+              </div>
+            </div>
+
+            <div class="automation-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openSequenceModal('Win-Back Campaign')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Edit Sequence
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="openAnalyticsModal('Win-Back Campaign')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                View Analytics
+              </button>
+            </div>
+          </div>
+
+          <!-- Sequence 3: Review Generator -->
+          <div class="card automation-card">
+            <div class="automation-card-top">
+              <div class="automation-channel-badge badge badge-pending">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Auto SMS
+              </div>
+              <div class="clay-switch active" onclick="toggleClaySwitch(this, 'Review Generator')">
+                <div class="clay-switch-thumb"></div>
+              </div>
+            </div>
+
+            <h3 class="automation-title">Review Generator</h3>
+            <p class="automation-desc">Triggers an automated SMS request for a Google & Trustpilot review immediately after a member's 5th check-in.</p>
+
+            <div class="automation-stats-row">
+              <div class="auto-stat-item">
+                <span class="auto-stat-val">156</span>
+                <span class="auto-stat-label">Requests Sent</span>
+              </div>
+              <div class="auto-stat-item">
+                <span class="auto-stat-val" style="color: var(--green);">42</span>
+                <span class="auto-stat-label">Reviews Left</span>
+              </div>
+              <div class="auto-stat-item">
+                <span class="auto-stat-val" style="color: var(--green);">26.9%</span>
+                <span class="auto-stat-label">Conversion</span>
+              </div>
+            </div>
+
+            <div class="automation-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openSequenceModal('Review Generator')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Edit Sequence
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="openAnalyticsModal('Review Generator')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                View Analytics
+              </button>
+            </div>
+          </div>
+
+          <!-- Sequence 4: Birthday Messages -->
+          <div class="card automation-card">
+            <div class="automation-card-top">
+              <div class="automation-channel-badge badge badge-blue">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Auto Email + Day Pass
+              </div>
+              <div class="clay-switch active" onclick="toggleClaySwitch(this, 'Birthday Messages')">
+                <div class="clay-switch-thumb"></div>
+              </div>
+            </div>
+
+            <h3 class="automation-title">Birthday Messages</h3>
+            <p class="automation-desc">Sends a celebration email on the member's birthday containing a complimentary 1-Day Guest Pass for a friend.</p>
+
+            <div class="automation-stats-row">
+              <div class="auto-stat-item">
+                <span class="auto-stat-val">23</span>
+                <span class="auto-stat-label">Sent This Month</span>
+              </div>
+              <div class="auto-stat-item">
+                <span class="auto-stat-val" style="color: var(--green);">18</span>
+                <span class="auto-stat-label">Passes Claimed</span>
+              </div>
+              <div class="auto-stat-item">
+                <span class="auto-stat-val" style="color: var(--orange);">78.2%</span>
+                <span class="auto-stat-label">Claim Rate</span>
+              </div>
+            </div>
+
+            <div class="automation-actions">
+              <button class="btn btn-secondary btn-sm" onclick="openSequenceModal('Birthday Messages')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Edit Sequence
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="openAnalyticsModal('Birthday Messages')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                View Analytics
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MONTHLY REPORT GENERATOR SECTION -->
+      <section id="reports" class="dashboard-section">
+        <div class="card report-card">
+          <div class="report-header">
+            <div class="report-title-meta">
+              <span class="badge badge-active" style="margin-bottom: 8px;">Official Monthly Executive Summary</span>
+              <h2 style="font-size: 1.6rem; color: #fff;">July 2026 Performance Report</h2>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">Generated on Monday, August 3, 2026 • Flex N Tone Operations Salford Quays</p>
+            </div>
+
+            <div class="report-actions">
+              <button class="btn btn-primary" onclick="downloadReportPDF()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download PDF
+              </button>
+              <button class="btn btn-secondary" onclick="emailReportToOwner()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Email Report to Owner
+              </button>
+            </div>
+          </div>
+
+          <div class="report-stats-grid">
+            <div class="report-stat-box">
+              <span class="report-stat-label">Total Monthly Revenue</span>
+              <div class="report-stat-value">£9,880</div>
+              <span class="report-stat-change positive">+12% vs June (£8,820)</span>
+            </div>
+
+            <div class="report-stat-box">
+              <span class="report-stat-label">New Members Acquired</span>
+              <div class="report-stat-value">18</div>
+              <span class="report-stat-change positive">+5 vs June (13)</span>
+            </div>
+
+            <div class="report-stat-box">
+              <span class="report-stat-label">Member Churn</span>
+              <div class="report-stat-value">6</div>
+              <span class="report-stat-change neutral">3.2% Monthly Churn Rate</span>
+            </div>
+
+            <div class="report-stat-box">
+              <span class="report-stat-label">Net Member Growth</span>
+              <div class="report-stat-value" style="color: var(--green);">+12</div>
+              <span class="report-stat-change positive">Total Active: 247 Members</span>
+            </div>
+          </div>
+
+          <div class="report-highlights-grid">
+            <div class="report-highlight-card">
+              <div class="rh-icon">🔥</div>
+              <div class="rh-info">
+                <span class="rh-label">Top Performing Class</span>
+                <h4 class="rh-title">Leg Destroyer</h4>
+                <p class="rh-desc"><strong>47 bookings</strong> • 98% average occupancy rate across 8 sessions.</p>
+              </div>
+            </div>
+
+            <div class="report-highlight-card">
+              <div class="rh-icon">💪</div>
+              <div class="rh-info">
+                <span class="rh-label">Top Personal Trainer</span>
+                <h4 class="rh-title">Coach Mike</h4>
+                <p class="rh-desc"><strong>89 sessions</strong> conducted • 4.98/5 client satisfaction rating.</p>
+              </div>
+            </div>
+
+            <div class="report-highlight-card">
+              <div class="rh-icon">🎟️</div>
+              <div class="rh-info">
+                <span class="rh-label">Day Pass Conversion</span>
+                <h4 class="rh-title">35% Conversion Rate</h4>
+                <p class="rh-desc"><strong>34 claimed → 12 joined</strong> full monthly membership.</p>
+              </div>
+            </div>
+
+            <div class="report-highlight-card">
+              <div class="rh-icon">👥</div>
+              <div class="rh-info">
+                <span class="rh-label">Referral Program Impact</span>
+                <h4 class="rh-title">8 Successful Referrals</h4>
+                <p class="rh-desc"><strong>£320</strong> in rewards distributed to member advocates.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="report-dual-grid">
+            <div class="report-sub-card">
+              <h3 class="report-sub-title">Revenue Breakdown by Source</h3>
+              <div class="report-revenue-list">
+                <div class="report-rev-row">
+                  <div class="report-rev-meta">
+                    <span class="rev-dot" style="background: var(--green);"></span>
+                    <span>Membership Subscriptions</span>
+                  </div>
+                  <span class="report-rev-amount">£8,200</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 83%; background: var(--green);"></div></div>
+
+                <div class="report-rev-row">
+                  <div class="report-rev-meta">
+                    <span class="rev-dot" style="background: var(--orange);"></span>
+                    <span>Personal Training (PT)</span>
+                  </div>
+                  <span class="report-rev-amount">£980</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 10%; background: var(--orange);"></div></div>
+
+                <div class="report-rev-row">
+                  <div class="report-rev-meta">
+                    <span class="rev-dot" style="background: #00a2ff;"></span>
+                    <span>Therapy & Recovery</span>
+                  </div>
+                  <span class="report-rev-amount">£462</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 4.7%; background: #00a2ff;"></div></div>
+
+                <div class="report-rev-row">
+                  <div class="report-rev-meta">
+                    <span class="rev-dot" style="background: #a855f7;"></span>
+                    <span>Day Pass Claims</span>
+                  </div>
+                  <span class="report-rev-amount">£238</span>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 2.3%; background: #a855f7;"></div></div>
+
+                <div class="report-rev-total">
+                  <span>Total July Revenue</span>
+                  <span style="color: var(--green); font-weight: 800; font-size: 1.1rem;">£9,880</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="report-sub-card">
+              <h3 class="report-sub-title">6-Month Revenue Trend Bar Chart</h3>
+              <div class="report-bar-chart">
+                <div class="rb-column">
+                  <div class="rb-val">£7.4k</div>
+                  <div class="rb-bar-wrap"><div class="rb-bar" style="height: 65%;"></div></div>
+                  <div class="rb-label">Feb</div>
+                </div>
+                <div class="rb-column">
+                  <div class="rb-val">£7.9k</div>
+                  <div class="rb-bar-wrap"><div class="rb-bar" style="height: 72%;"></div></div>
+                  <div class="rb-label">Mar</div>
+                </div>
+                <div class="rb-column">
+                  <div class="rb-val">£8.2k</div>
+                  <div class="rb-bar-wrap"><div class="rb-bar" style="height: 77%;"></div></div>
+                  <div class="rb-label">Apr</div>
+                </div>
+                <div class="rb-column">
+                  <div class="rb-val">£8.5k</div>
+                  <div class="rb-bar-wrap"><div class="rb-bar" style="height: 82%;"></div></div>
+                  <div class="rb-label">May</div>
+                </div>
+                <div class="rb-column">
+                  <div class="rb-val">£8.8k</div>
+                  <div class="rb-bar-wrap"><div class="rb-bar" style="height: 88%;"></div></div>
+                  <div class="rb-label">Jun</div>
+                </div>
+                <div class="rb-column active">
+                  <div class="rb-val" style="color: var(--green); font-weight: 700;">£9.9k</div>
+                  <div class="rb-bar-wrap"><div class="rb-bar highlight" style="height: 100%;"></div></div>
+                  <div class="rb-label" style="color: var(--green); font-weight: 700;">Jul 2026</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- REFERRAL TRACKING SECTION -->
+      <section id="referrals" class="dashboard-section">
+        <div class="stats-grid" style="margin-bottom: 24px;">
+          <div class="stat-card card">
+            <div class="stat-header">
+              <span class="stat-label">Total Referrals</span>
+              <div class="stat-icon" style="background: rgba(204, 255, 0, 0.1); color: var(--green);">👥</div>
+            </div>
+            <div class="stat-value">342</div>
+            <span class="stat-trend positive">All-time successful referrals</span>
+          </div>
+
+          <div class="stat-card card">
+            <div class="stat-header">
+              <span class="stat-label">Referrals This Month</span>
+              <div class="stat-icon" style="background: rgba(255, 107, 53, 0.1); color: var(--orange);">🔥</div>
+            </div>
+            <div class="stat-value">8</div>
+            <span class="stat-trend positive">+2 vs last month</span>
+          </div>
+
+          <div class="stat-card card">
+            <div class="stat-header">
+              <span class="stat-label">Rewards Given</span>
+              <div class="stat-icon" style="background: rgba(0, 162, 255, 0.1); color: #00a2ff;">🎁</div>
+            </div>
+            <div class="stat-value">£8,550</div>
+            <span class="stat-trend neutral">£25 reward per conversion</span>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="chart-card-header" style="margin-bottom: 20px;">
+            <div>
+              <h3>Referral Conversion Funnel</h3>
+              <p style="color: var(--text-dim); font-size: 0.85rem;">Tracking shared links to active paid memberships</p>
+            </div>
+            <span class="badge badge-active">26% Conversion Rate</span>
+          </div>
+
+          <div class="referral-funnel-container">
+            <div class="funnel-step-card">
+              <div class="funnel-step-num">STEP 01</div>
+              <div class="funnel-step-val">1,204</div>
+              <div class="funnel-step-title">Links Shared</div>
+              <p class="funnel-step-desc">Shared via WhatsApp, IG & SMS</p>
+            </div>
+
+            <div class="funnel-arrow">➔</div>
+
+            <div class="funnel-step-card">
+              <div class="funnel-step-num">STEP 02</div>
+              <div class="funnel-step-val">342</div>
+              <div class="funnel-step-title">Clicked</div>
+              <p class="funnel-step-desc">Landing page visitors (28.4% CTR)</p>
+            </div>
+
+            <div class="funnel-arrow">➔</div>
+
+            <div class="funnel-step-card highlight">
+              <div class="funnel-step-num" style="color: var(--green);">STEP 03</div>
+              <div class="funnel-step-val" style="color: var(--green);">89</div>
+              <div class="funnel-step-title" style="color: #fff;">Joined Members</div>
+              <p class="funnel-step-desc">Converted to full paid plan (26% conversion)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-toolbar">
+            <div>
+              <h3>Top Referrers Leaderboard</h3>
+              <p style="color: var(--text-dim); font-size: 0.85rem;">Top 5 ambassador members driving gym referrals</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="showToast('Exporting referral leaderboard...')">Export CSV</button>
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Member Name</th>
+                  <th>Tier</th>
+                  <th>Referrals</th>
+                  <th>Rewards Earned</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="badge badge-active" style="border-radius: 50%; width: 28px; height: 28px; justify-content: center; padding: 0;">1</span></td>
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar" style="background: linear-gradient(135deg, var(--green), #00a2ff);">SJ</div>
+                      <div class="member-info">
+                        <h5>Sarah Jenkins</h5>
+                        <p>sarah.j@gmail.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>VIP Platinum</td>
+                  <td><strong style="color: var(--green); font-size: 1.05rem;">14</strong></td>
+                  <td>£350</td>
+                  <td><span class="badge badge-active">Top Ambassador</span></td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="sendReferralBonus('Sarah Jenkins')">Send £25 Bonus</button></td>
+                </tr>
+
+                <tr>
+                  <td><span class="badge badge-active" style="border-radius: 50%; width: 28px; height: 28px; justify-content: center; padding: 0;">2</span></td>
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">MV</div>
+                      <div class="member-info">
+                        <h5>Marcus Vance</h5>
+                        <p>marcus.vance@outlook.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Pro Trainer Access</td>
+                  <td><strong style="color: var(--green); font-size: 1.05rem;">11</strong></td>
+                  <td>£275</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="sendReferralBonus('Marcus Vance')">Send £25 Bonus</button></td>
+                </tr>
+
+                <tr>
+                  <td><span class="badge badge-blue" style="border-radius: 50%; width: 28px; height: 28px; justify-content: center; padding: 0;">3</span></td>
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">DC</div>
+                      <div class="member-info">
+                        <h5>David Croft</h5>
+                        <p>d.croft@sky.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Standard Monthly</td>
+                  <td><strong style="color: var(--text); font-size: 1rem;">9</strong></td>
+                  <td>£225</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="sendReferralBonus('David Croft')">Send £25 Bonus</button></td>
+                </tr>
+
+                <tr>
+                  <td><span class="badge badge-blue" style="border-radius: 50%; width: 28px; height: 28px; justify-content: center; padding: 0;">4</span></td>
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">ER</div>
+                      <div class="member-info">
+                        <h5>Elena Rostova</h5>
+                        <p>elena.r@icloud.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>VIP Platinum</td>
+                  <td><strong style="color: var(--text); font-size: 1rem;">8</strong></td>
+                  <td>£200</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="sendReferralBonus('Elena Rostova')">Send £25 Bonus</button></td>
+                </tr>
+
+                <tr>
+                  <td><span class="badge badge-blue" style="border-radius: 50%; width: 28px; height: 28px; justify-content: center; padding: 0;">5</span></td>
+                  <td>
+                    <div class="member-name-cell">
+                      <div class="member-avatar">JL</div>
+                      <div class="member-info">
+                        <h5>Jordan Lee</h5>
+                        <p>jordan.lee99@gmail.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Student Pass</td>
+                  <td><strong style="color: var(--text); font-size: 1rem;">6</strong></td>
+                  <td>£150</td>
+                  <td><span class="badge badge-active">Active</span></td>
+                  <td><button class="btn btn-secondary btn-sm" onclick="sendReferralBonus('Jordan Lee')">Send £25 Bonus</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SOCIAL MEDIA CONTENT KIT SECTION -->
+      <section id="content-kit" class="dashboard-section">
+        <div class="card" style="margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h2>Instagram Social Media Kit</h2>
+              <p style="color: var(--text-dim); font-size: 0.88rem;">Ready-to-use promotional graphics and captions optimized for social marketing.</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="showToast('Downloading social template kit...')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download All Templates
+            </button>
+          </div>
+        </div>
+
+        <div class="content-kit-grid">
+          <!-- Template 1: New Year Challenge -->
+          <div class="card content-card">
+            <div class="template-thumbnail-box thumb-challenge">
+              <span class="template-tag">CHALLENGE</span>
+              <div class="thumb-content">
+                <h4>6-WEEK SHRED</h4>
+                <h3>NEW YEAR CHALLENGE</h3>
+                <p>TRANSFORM YOUR PHYSIQUE • SALFORD QUAYS</p>
+              </div>
+            </div>
+
+            <div class="content-card-body">
+              <h3 class="template-title">New Year Challenge</h3>
+              <p class="template-caption-preview">"Ready to transform? Join our 6-Week New Year Shred Challenge at Flex N Tone! 🏋️‍♂️ Unlimited classes, personalized macro plan, and 1-on-1 coaching. Tag your gym buddy! #FlexNTone #SalfordQuays #FitnessGoal"</p>
+
+              <div class="template-actions">
+                <button class="btn btn-secondary btn-sm" onclick="copyCaption('Ready to transform? Join our 6-Week New Year Shred Challenge at Flex N Tone! 🏋️‍♂️ Unlimited classes, personalized macro plan, and 1-on-1 coaching. Tag your gym buddy! #FlexNTone #SalfordQuays #FitnessGoal', this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy Caption
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="useTemplate('New Year Challenge')">Use Template</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Template 2: Trainer Spotlight -->
+          <div class="card content-card">
+            <div class="template-thumbnail-box thumb-spotlight">
+              <span class="template-tag orange">COACH SPOTLIGHT</span>
+              <div class="thumb-content">
+                <h4>MEET COACH MIKE</h4>
+                <h3>HIIT & STRENGTH</h3>
+                <p>8+ YEARS EXP • LEG DESTROYER COACH</p>
+              </div>
+            </div>
+
+            <div class="content-card-body">
+              <h3 class="template-title">Trainer Spotlight</h3>
+              <p class="template-caption-preview">"Meet Coach Mike! 💥 Over 8 years of high-intensity functional training experience. Catch his Leg Destroyer class every Tuesday at 18:00! Book on the app now. #TrainerSpotlight #FlexNTone #SalfordGym"</p>
+
+              <div class="template-actions">
+                <button class="btn btn-secondary btn-sm" onclick="copyCaption('Meet Coach Mike! 💥 Over 8 years of high-intensity functional training experience. Catch his Leg Destroyer class every Tuesday at 18:00! Book on the app now. #TrainerSpotlight #FlexNTone #SalfordGym', this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy Caption
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="useTemplate('Trainer Spotlight')">Use Template</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Template 3: Equipment Highlight -->
+          <div class="card content-card">
+            <div class="template-thumbnail-box thumb-equipment">
+              <span class="template-tag">FACILITY</span>
+              <div class="thumb-content">
+                <h4>STATE OF THE ART</h4>
+                <h3>ELEIKO & HYROX ZONE</h3>
+                <p>24/7 MEMBER ACCESS • PREMIUM RACKS</p>
+              </div>
+            </div>
+
+            <div class="content-card-body">
+              <h3 class="template-title">Equipment Highlight</h3>
+              <p class="template-caption-preview">"Upgrade your workout experience with our new Eleiko Olympic lifting platforms & full Hyrox training zone. Open 24/7 for members! Claim your free day pass in bio. ⚡️ #FlexNTone #GymEquipment #Hyrox"</p>
+
+              <div class="template-actions">
+                <button class="btn btn-secondary btn-sm" onclick="copyCaption('Upgrade your workout experience with our new Eleiko Olympic lifting platforms & full Hyrox training zone. Open 24/7 for members! Claim your free day pass in bio. ⚡️ #FlexNTone #GymEquipment #Hyrox', this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy Caption
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="useTemplate('Equipment Highlight')">Use Template</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Template 4: Member Transformation -->
+          <div class="card content-card">
+            <div class="template-thumbnail-box thumb-transformation">
+              <span class="template-tag orange">TRANSFORMATION</span>
+              <div class="thumb-content">
+                <h4>-12KG IN 12 WEEKS</h4>
+                <h3>SARAH'S JOURNEY</h3>
+                <p>CONSISTENCY WINS • FLEX N TONE RESULTS</p>
+              </div>
+            </div>
+
+            <div class="content-card-body">
+              <h3 class="template-title">Member Transformation</h3>
+              <p class="template-caption-preview">"Incredible dedication! 💥 Sarah dropped 12kg and built serious strength in just 12 weeks with Coach Marcus. Consistency wins. Start your journey today! #MemberTransformation #FlexNToneResults"</p>
+
+              <div class="template-actions">
+                <button class="btn btn-secondary btn-sm" onclick="copyCaption('Incredible dedication! 💥 Sarah dropped 12kg and built serious strength in just 12 weeks with Coach Marcus. Consistency wins. Start your journey today! #MemberTransformation #FlexNToneResults', this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy Caption
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="useTemplate('Member Transformation')">Use Template</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Template 5: Class Schedule -->
+          <div class="card content-card">
+            <div class="template-thumbnail-box thumb-schedule">
+              <span class="template-tag">TIMETABLE</span>
+              <div class="thumb-content">
+                <h4>WEEKLY CLASSES</h4>
+                <h3>THIS WEEK'S TIMETABLE</h3>
+                <p>HYROX • LEG DAY • SPIN • YOGA</p>
+              </div>
+            </div>
+
+            <div class="content-card-body">
+              <h3 class="template-title">Class Schedule</h3>
+              <p class="template-caption-preview">"This week's class schedule is live! 📅 Slots are filling fast for Leg Destroyer & Saturday Hyrox Blitz. Tap the link in bio to reserve your spot! #ClassSchedule #SalfordFitness"</p>
+
+              <div class="template-actions">
+                <button class="btn btn-secondary btn-sm" onclick="copyCaption('This week's class schedule is live! 📅 Slots are filling fast for Leg Destroyer & Saturday Hyrox Blitz. Tap the link in bio to reserve your spot! #ClassSchedule #SalfordFitness', this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy Caption
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="useTemplate('Class Schedule')">Use Template</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Template 6: Special Offer -->
+          <div class="card content-card">
+            <div class="template-thumbnail-box thumb-offer">
+              <span class="template-tag orange">PROMO SALE</span>
+              <div class="thumb-content">
+                <h4>SUMMER SPECIAL</h4>
+                <h3>20% OFF ANNUAL PASS</h3>
+                <p>ZERO JOINING FEE • OFFER ENDS SUNDAY</p>
+              </div>
+            </div>
+
+            <div class="content-card-body">
+              <h3 class="template-title">Special Offer</h3>
+              <p class="template-caption-preview">"LIMITED TIME OFFER 🚨 Get 20% off annual memberships plus ZERO joining fee! Offer ends Sunday at midnight. Don't wait — claim now! #FlexNToneSale #GymOffer #SalfordQuays"</p>
+
+              <div class="template-actions">
+                <button class="btn btn-secondary btn-sm" onclick="copyCaption('LIMITED TIME OFFER 🚨 Get 20% off annual memberships plus ZERO joining fee! Offer ends Sunday at midnight. Don't wait — claim now! #FlexNToneSale #GymOffer #SalfordQuays', this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy Caption
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="useTemplate('Special Offer')">Use Template</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- MODAL: ADD MEMBER -->
+  <div class="modal-overlay" id="addMemberModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="font-syne">Add New Gym Member</h3>
+        <button class="modal-close" onclick="closeModal('addMemberModal')">&times;</button>
+      </div>
+      <form onsubmit="handleAddMember(event)">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label>Full Name</label>
+          <input type="text" id="newMemName" required placeholder="e.g. Alex Harrison">
+        </div>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label>Email Address</label>
+          <input type="email" id="newMemEmail" required placeholder="alex@example.com">
+        </div>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label>Membership Tier</label>
+          <select id="newMemTier">
+            <option value="Pro HYROX Unlimited (£59.00)">Pro HYROX Unlimited (£59.00/mo)</option>
+            <option value="Standard Gym (£49.99)">Standard Gym (£49.99/mo)</option>
+            <option value="Off-Peak Pass (£34.99)">Off-Peak Pass (£34.99/mo)</option>
+          </select>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('addMemberModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Member</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD CLASS -->
+  <div class="modal-overlay" id="addClassModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="font-syne">Create New Class Slot</h3>
+        <button class="modal-close" onclick="closeModal('addClassModal')">&times;</button>
+      </div>
+      <form onsubmit="handleAddClass(event)">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label>Class Name</label>
+          <input type="text" id="newClassName" required placeholder="e.g. HYROX Core Sprint">
+        </div>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label>Day & Time</label>
+          <input type="text" id="newClassTime" required placeholder="Friday • 17:00">
+        </div>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label>Instructor</label>
+          <select id="newClassTrainer">
+            <option>Marcus Vance</option>
+            <option>Dave "Grit" Taylor</option>
+            <option>Elena Rostova</option>
+            <option>Chloe Bennett</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label>Capacity Limit</label>
+          <input type="number" id="newClassCap" value="20">
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('addClassModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Publish Class</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Tab switching logic
+    function switchTab(targetId, event) {
+      if (event) event.preventDefault();
+      
+      // Update nav active states
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => {
+        if (item.getAttribute('data-target') === targetId) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+
+      // Update section visibility
+      const sections = document.querySelectorAll('.dashboard-section');
+      sections.forEach(sec => {
+        if (sec.id === targetId) {
+          sec.classList.add('active');
+        } else {
+          sec.classList.remove('active');
+        }
+      });
+
+      // Update titles
+      const titles = {
+        'overview': ['Dashboard Overview', 'FLEX N TONE Gym Operations • Salford Quays'],
+        'members': ['Members Directory', 'Manage 247 active gym memberships and renewals'],
+        'classes': ['Classes Manager', 'Weekly timetable schedules and live capacity controls'],
+        'trainers': ['Coaching Staff', 'Manage personal trainer profiles and specialties'],
+        'revenue': ['Revenue Analytics', 'Financial performance, source breakdowns & forecasting'],
+        'reports': ['Monthly Performance Reports', 'Comprehensive business analytics & downloadable insights'],
+        'automation': ['Automation Sequences', 'Automated member lifecycle & marketing campaigns'],
+        'referrals': ['Referral Program', 'Member referral tracking, conversion funnel & rewards'],
+        'leads': ['Day Pass QR Leads', 'Connected to public site day pass barcode claims'],
+        'content-kit': ['Social Media Content Kit', 'Ready-to-use Instagram post templates & promotional copy'],
+        'settings': ['Gym Settings', 'Configure opening hours, pricing, and feature toggles']
+      };
+
+      if (titles[targetId]) {
+        document.getElementById('pageTitle').innerText = titles[targetId][0];
+        document.getElementById('pageSubtitle').innerText = titles[targetId][1];
+      }
+
+      // Close mobile sidebar on navigate
+      const sidebar = document.getElementById('sidebarNav');
+      if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    }
+
+    // Toggle Mobile Sidebar
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebarNav');
+      sidebar.classList.toggle('open');
+    }
+
+    // Filter Members Table
+    function filterMembers() {
+      const search = document.getElementById('memberSearch').value.toLowerCase();
+      const status = document.getElementById('memberStatusFilter').value;
+      const rows = document.querySelectorAll('#membersTableBody tr');
+
+      rows.forEach(row => {
+        const name = row.getAttribute('data-name') || '';
+        const rowStatus = row.getAttribute('data-status') || '';
+
+        const matchesSearch = name.includes(search);
+        const matchesStatus = (status === 'all') || (rowStatus === status);
+
+        if (matchesSearch && matchesStatus) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Filter Leads Table
+    function filterLeads() {
+      const search = document.getElementById('leadSearch').value.toLowerCase();
+      const status = document.getElementById('leadStatusFilter').value;
+      const rows = document.querySelectorAll('#leadsTableBody tr');
+
+      rows.forEach(row => {
+        const phone = row.getAttribute('data-phone') || '';
+        const rowStatus = row.getAttribute('data-status') || '';
+
+        const matchesSearch = phone.includes(search);
+        const matchesStatus = (status === 'all') || (rowStatus === status);
+
+        if (matchesSearch && matchesStatus) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Toggle Member Status (Active/Expired)
+    function toggleMemberStatus(btn) {
+      const row = btn.closest('tr');
+      const badge = row.querySelector('.badge');
+      const currentStatus = row.getAttribute('data-status');
+
+      if (currentStatus === 'active') {
+        row.setAttribute('data-status', 'expired');
+        badge.className = 'badge badge-expired';
+        badge.innerText = 'Expired';
+        btn.className = 'btn btn-primary btn-sm';
+        btn.innerText = 'Reactivate';
+        showToast('Member status changed to Expired');
+      } else {
+        row.setAttribute('data-status', 'active');
+        badge.className = 'badge badge-active';
+        badge.innerText = 'Active';
+        btn.className = 'btn btn-danger btn-sm';
+        btn.innerText = 'Deactivate';
+        showToast('Member status changed to Active');
+      }
+    }
+
+    // Toggle Class Status (Full / Reopen)
+    function toggleClassStatus(classId) {
+      const statusBadge = document.getElementById(`class-status-${classId}`);
+      const capText = document.getElementById(`class-cap-text-${classId}`);
+      const capBar = document.getElementById(`class-cap-bar-${classId}`);
+
+      if (statusBadge.innerText === 'FULL') {
+        statusBadge.innerText = 'ACTIVE';
+        statusBadge.className = 'badge badge-active';
+        capBar.style.background = 'var(--green)';
+        capBar.style.width = '80%';
+        capText.innerText = '16 / 20 Booked';
+        showToast('Class reopened for online booking');
+      } else {
+        statusBadge.innerText = 'FULL';
+        statusBadge.className = 'badge badge-expired';
+        capBar.style.background = '#ff5252';
+        capBar.style.width = '100%';
+        capText.innerText = '20 / 20 Booked';
+        showToast('Class marked as FULL');
+      }
+    }
+
+    // 3D Clay Switch Toggle
+    function toggleClaySwitch(element, moduleName) {
+      element.classList.toggle('active');
+      const isActive = element.classList.contains('active');
+      showToast(`${moduleName} ${isActive ? 'Enabled' : 'Disabled'}`);
+    }
+
+    // Modal Controls
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+    }
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    // Handle Add Member
+    function handleAddMember(e) {
+      e.preventDefault();
+      const name = document.getElementById('newMemName').value;
+      const email = document.getElementById('newMemEmail').value;
+      const tier = document.getElementById('newMemTier').value;
+
+      const tbody = document.getElementById('membersTableBody');
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-status', 'active');
+      tr.setAttribute('data-name', name.toLowerCase());
+
+      const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
+
+      tr.innerHTML = `
+        <td>
+          <div class="member-name-cell">
+            <div class="member-avatar">${initials}</div>
+            <div class="member-info">
+              <h5>${name}</h5>
+              <p>${email}</p>
+            </div>
+          </div>
+        </td>
+        <td>${tier}</td>
+        <td>03 Aug 2026</td>
+        <td><span class="badge badge-active">Active</span></td>
+        <td>£49.99</td>
+        <td>
+          <div class="table-actions">
+            <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing ${name} details')">View</button>
+            <button class="btn btn-danger btn-sm" onclick="toggleMemberStatus(this)">Deactivate</button>
+          </div>
+        </td>
+      `;
+
+      tbody.prepend(tr);
+      closeModal('addMemberModal');
+      showToast(`Member ${name} added successfully!`);
+      e.target.reset();
+    }
+
+    // Handle Add Class
+    function handleAddClass(e) {
+      e.preventDefault();
+      const name = document.getElementById('newClassName').value;
+      const time = document.getElementById('newClassTime').value;
+
+      closeModal('addClassModal');
+      showToast(`Class "${name}" scheduled for ${time}!`);
+      e.target.reset();
+    }
+
+    // Toast Notification System
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `
+        <span class="toast-icon">✓</span>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  
+    // Login Screen Logic
+    function handleLogin(e) {
+      if (e) e.preventDefault();
+      const email = document.getElementById('loginEmail').value || 'alex@flexntone.co.uk';
+      document.getElementById('loginOverlay').classList.add('hidden');
+      showToast(`Welcome back, ${email.split('@')[0]}! Admin dashboard unlocked.`);
+    }
+
+    function handleDemoLogin() {
+      document.getElementById('loginOverlay').classList.add('hidden');
+      showToast('Demo Mode Activated! Full access granted.');
+    }
+
+    function lockDashboard() {
+      document.getElementById('loginOverlay').classList.remove('hidden');
+      showToast('Dashboard Session Locked');
+    }
+
+    // Automation Modal Logic
+    function openSequenceModal(seqName) {
+      document.getElementById('seqModalTitle').innerText = `Edit ${seqName}`;
+      document.getElementById('seqNameInput').value = seqName;
+      document.getElementById('seqContentInput').value = `Hi {first_name}, welcome to Flex N Tone Salford Quays! We are excited to support your fitness journey. Book your free orientation session on our app today.`;
+      openModal('sequenceModal');
+    }
+
+    function saveSequence(e) {
+      e.preventDefault();
+      const name = document.getElementById('seqNameInput').value;
+      closeModal('sequenceModal');
+      showToast(`Automation sequence "${name}" saved successfully!`);
+    }
+
+    function openAnalyticsModal(seqName) {
+      document.getElementById('analyticsModalTitle').innerText = `${seqName} Analytics`;
+      openModal('analyticsModal');
+    }
+
+    // Monthly Report Actions
+    function downloadReportPDF() {
+      showToast('Generating PDF Report...');
+      alert('Generating PDF...');
+    }
+
+    function emailReportToOwner() {
+      showToast('Report emailed to owner@flexntone.co.uk!');
+      alert('Report emailed to owner@flexntone.co.uk');
+    }
+
+    // Referral Bonus
+    function sendReferralBonus(memberName) {
+      showToast(`£25 Reward credit sent to ${memberName}!`);
+    }
+
+    // Content Kit Actions
+    function copyCaption(text, btnEl) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Caption copied to clipboard!');
+        }).catch(() => {
+          showToast('Caption copied to clipboard!');
+        });
+      } else {
+        showToast('Caption copied to clipboard!');
+      }
+    }
+
+    function useTemplate(templateName) {
+      document.getElementById('templateModalTitle').innerText = `Template: ${templateName}`;
+      document.getElementById('templateGraphicText').innerText = templateName.toUpperCase();
+      openModal('templateModal');
+    }
+
+  </script>
+
+  <!-- LOGIN OVERLAY -->
+  <div id="loginOverlay" class="login-overlay">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="login-logo-icon">F</div>
+        <div class="login-brand-text">
+          <h2>FLEX N <span>TONE</span> ADMIN</h2>
+          <p>SALFORD QUAYS OPERATIONAL PORTAL</p>
+        </div>
+      </div>
+      
+      <div class="login-badge-row">
+        <span class="badge badge-active"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green); margin-right:4px;"></span> System Live</span>
+        <span class="badge badge-blue">v2.0 Operations Suite</span>
+      </div>
+
+      <p class="login-subtitle">Enter admin credentials to unlock operational suite</p>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="loginEmail">Admin Email</label>
+          <div class="input-with-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="loginEmail" class="form-control" placeholder="alex@flexntone.co.uk" value="alex@flexntone.co.uk" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <div class="input-with-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="loginPassword" class="form-control" placeholder="••••••••••••" value="••••••••••••" required>
+          </div>
+        </div>
+
+        <div class="login-actions">
+          <button type="submit" class="btn btn-primary btn-block btn-lg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Sign In
+          </button>
+
+          <button type="button" class="btn btn-secondary btn-block btn-lg" onclick="handleDemoLogin()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Demo Mode (Skip Login)
+          </button>
+        </div>
+
+        <div class="login-footer">
+          <p>🔒 End-to-end encrypted admin access • Salford Quays HQ</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT AUTOMATION SEQUENCE MODAL -->
+  <div id="sequenceModal" class="modal-overlay">
+    <div class="modal-card card" style="max-width: 550px;">
+      <div class="modal-header">
+        <h3 id="seqModalTitle">Edit Sequence</h3>
+        <button class="modal-close" onclick="closeModal('sequenceModal')">✕</button>
+      </div>
+      <form onsubmit="saveSequence(event)">
+        <div class="form-group">
+          <label>Sequence Name</label>
+          <input type="text" id="seqNameInput" class="form-control" style="background:var(--bg-elevated); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; width:100%;" required>
+        </div>
+
+        <div class="form-group">
+          <label>Trigger Rule</label>
+          <select id="seqTriggerInput" class="form-control" style="background:var(--bg-elevated); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; width:100%;">
+            <option>Immediate on Event Trigger</option>
+            <option>Delay 24 Hours</option>
+            <option>Delay 3 Days</option>
+            <option>Delay 7 Days</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Sequence Message / Content</label>
+          <textarea id="seqContentInput" rows="4" class="form-control" style="background:var(--bg-elevated); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; width:100%; font-family:'Inter',sans-serif;" required></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('sequenceModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- AUTOMATION ANALYTICS MODAL -->
+  <div id="analyticsModal" class="modal-overlay">
+    <div class="modal-card card" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 id="analyticsModalTitle">Campaign Analytics</h3>
+        <button class="modal-close" onclick="closeModal('analyticsModal')">✕</button>
+      </div>
+      <div style="padding: 10px 0;">
+        <div class="automation-stats-row" style="margin-bottom: 20px;">
+          <div class="auto-stat-item">
+            <span class="auto-stat-val" id="anSent">247</span>
+            <span class="auto-stat-label">Total Sent</span>
+          </div>
+          <div class="auto-stat-item">
+            <span class="auto-stat-val" style="color: var(--green);" id="anOpen">89%</span>
+            <span class="auto-stat-label">Open Rate</span>
+          </div>
+          <div class="auto-stat-item">
+            <span class="auto-stat-val" style="color: var(--orange);" id="anConv">64%</span>
+            <span class="auto-stat-label">Converted</span>
+          </div>
+        </div>
+
+        <p style="color: var(--text-dim); font-size: 0.85rem; line-height: 1.5; margin-bottom: 20px;">
+          Campaign performance has been actively tracked over the past 30 days. Highest open rates recorded during evening dispatch windows (18:00 - 20:00).
+        </p>
+
+        <button class="btn btn-primary btn-block" onclick="closeModal('analyticsModal')">Close Analytics</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL TEMPLATE USE MODAL -->
+  <div id="templateModal" class="modal-overlay">
+    <div class="modal-card card" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 id="templateModalTitle">Social Media Template</h3>
+        <button class="modal-close" onclick="closeModal('templateModal')">✕</button>
+      </div>
+      <div style="padding: 10px 0;">
+        <p style="color: var(--text-dim); font-size: 0.88rem; margin-bottom: 16px;">Preview high-resolution Instagram asset ready for export:</p>
+        <div id="templatePreviewArea" style="background: var(--bg-elevated); border: 1px solid var(--border-glow); border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 20px;">
+          <span class="badge badge-active" style="margin-bottom: 10px;">FLEX N TONE HIGH RES EXPORT</span>
+          <h2 id="templateGraphicText" style="font-size: 1.4rem; color: #fff; margin-top: 8px;">6-WEEK SHRED CHALLENGE</h2>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-secondary btn-block" onclick="showToast('Caption copytext copied!')">Copy Text</button>
+          <button class="btn btn-primary btn-block" onclick="showToast('Downloading PNG graphic asset (1080x1080)...'); closeModal('templateModal');">Download Asset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
